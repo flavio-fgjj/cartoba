@@ -6,7 +6,7 @@ import SignInScreen from '@screens/signIn';
 import { Home } from '@screens/home';
 
 // store
-import { useTokenStore } from '../store/token';
+import { useTokenStore } from '@store/token';
 
 const AuthRoutes = () => {
   const Stack = createNativeStackNavigator();

@@ -1,23 +1,60 @@
 import {StyleSheet} from 'react-native';
-import {colors} from '../../colors';
+import { Dimensions } from 'react-native';
+
+// utils
+import { wp, hp } from '../../utils/adjustments';
 
 export const styles = StyleSheet.create({
-  container: {
+  team: {
     flex: 1,
-    justifyContent: 'space-between',
+    position: 'absolute',
+    height: hp(500),
+    width: Dimensions.get('window').width,
+    paddingHorizontal: 10,
+  },
+  backgroundImg: {
+    width: Dimensions.get('window').width,
+    resizeMode: 'contain',
+    height: hp(500),
+   
+    position: 'absolute',
+  }, 
+  lineForward: {
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 32,
+    flexDirection: 'row', 
+    marginTop: hp(20)
   },
-  title: {
-    fontWeight: 'bold',
-
-    fontSize: 20,
-    textAlign: 'center',
+  lineMiddle: {
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row', 
+    marginTop: hp(80)
   },
-  coffText: {
-    color: colors.primary,
-    fontWeight: 'bold',
+  lineBack: {
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'row', 
+    marginTop: hp(60)
   },
+  player: {
+    borderRadius: 50,
+    width: wp(58.89), 
+    height: hp(58.89)
+  },
+  lineGoalkeeper: {
+    flex: 1,
+    flexDirection: 'row', 
+    marginTop: hp(30)
+  },
+  coach: {
+    borderRadius: 50,
+    width: wp(58.89), 
+    height: hp(58.89),
+  },
+  goalkeeper: {
+    borderRadius: 50,
+    width: wp(58.89), 
+    height: hp(58.89),
+  }
 });

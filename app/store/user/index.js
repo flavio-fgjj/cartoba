@@ -5,11 +5,11 @@ import { create } from 'zustand';
 import { User } from 'app/model/User';
 
 const initialUser = {
-    user: User
+    user: new User()
 };
 
 export const useUserStore = create((set) => ({
-    ...initialUser, 
-    increaseUser: (t: User) => set(() => ({ user: t})),
+    ...initialUser,
+    increaseUser: (t) => set(() => ({ user: t})),
     decreaseUser: () => set(() => ({ user: new User()}))
 }))

@@ -13,12 +13,16 @@ import useGetData from '@services/hooks/useGetData';
 // model
 import { Team } from 'app/model/team/Team';
 import { Market } from 'app/model/status/Market';
+import { User } from 'app/model/User';
 
 // store
-import { useStatusStore } from '../../store/statusMarket';
+import { useStatusStore } from '@store/statusMarket';
+import { useUserStore } from '@store/user';
 
 export const Home = () => {
   const increaseStatus = useStatusStore(state => state.increaseStatus);
+  const increaseUser = useUserStore((state: any) => state.increaseUser);
+  const decreaseUser = useUserStore((state: any) => state.decreaseUser);
 
   const actualDate = new Date();
   const { getTeam, getStatusMarket } = useGetData();
@@ -42,6 +46,19 @@ export const Home = () => {
       setTeam(teamResponse);
       setStatusMarket(statusMarketResponse);
       increaseStatus(statusMarketResponse.status_mercado);
+
+      decreaseUser();
+      increaseUser({
+        idTeam: teamResponse.time.time_id.toString(), 
+        championshipPoints: teamResponse.pontos_campeonato,
+        nameCartola: teamResponse.time.nome_cartola, 
+        nameTeam: teamResponse.time.nome, 
+        patrimony: teamResponse.patrimonio, 
+        photo: teamResponse.time.foto_perfil,
+        points: teamResponse.pontos, 
+        shield: teamResponse.time.url_escudo_png, 
+        slug: teamResponse.time.slug
+      });
 
       const statusMkt = statusMarketResponse.status_mercado == 1;
       setIsEnabled(statusMkt);

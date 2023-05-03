@@ -23,6 +23,17 @@ export default function useGetData() {
     }
   }
 
+  const getMyTeam = async (id: string) => {
+    try {
+      const response = await api.get(`/time/id/${id}`)
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
 	const getStatusMarket = async () => {
     try {
       const response = await api.get('/mercado/status', { headers })
@@ -37,5 +48,6 @@ export default function useGetData() {
   return {
     getTeam,
     getStatusMarket,
+    getMyTeam
   }
 }

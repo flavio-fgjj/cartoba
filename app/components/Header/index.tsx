@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import {View, Text, Image, Switch} from 'react-native';
 
-// icons
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 // styles
 import {styles} from './styles';
 
