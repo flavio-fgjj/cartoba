@@ -13,6 +13,8 @@ const AuthRoutes = () => {
 
   const token = useTokenStore(state => state);
 
+  console.log('token', token.token)
+
   return (
     <Stack.Navigator>
       {token.token 

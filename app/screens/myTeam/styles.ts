@@ -1,60 +1,39 @@
 import {StyleSheet} from 'react-native';
-import { Dimensions } from 'react-native';
 
-// utils
-import { wp, hp } from '../../utils/adjustments';
+import { adjust, hp, wp } from 'app/utils/adjustments';
 
 export const styles = StyleSheet.create({
-  team: {
-    flex: 1,
-    position: 'absolute',
-    height: hp(500),
-    width: Dimensions.get('window').width,
-    paddingHorizontal: 10,
+  viewScroll: {
+    flex: 1, 
+    marginBottom: hp(60)
   },
-  backgroundImg: {
-    width: Dimensions.get('window').width,
-    resizeMode: 'contain',
-    height: hp(500),
-   
-    position: 'absolute',
+  values: {
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    marginBottom: 10
+  },
+  viewTeamPrice: {
+    alignItems: 'center'
+  },
+  viewStillHave: {
+    alignItems: 'center', 
+    marginLeft: 30 
+  },
+  text: {
+    textTransform: 'uppercase', 
+    fontSize: adjust(12)
+  },
+  priceCurrency: {
+    fontSize: adjust(18),
+    fontWeight: 'normal'
+  },
+  price: {
+    fontSize: adjust(18),
+    fontWeight: 'bold'
   }, 
-  lineForward: {
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row', 
-    marginTop: hp(20)
-  },
-  lineMiddle: {
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row', 
-    marginTop: hp(80)
-  },
-  lineBack: {
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    flexDirection: 'row', 
-    marginTop: hp(60)
-  },
-  player: {
-    borderRadius: 50,
-    width: wp(58.89), 
-    height: hp(58.89)
-  },
-  lineGoalkeeper: {
-    flex: 1,
-    flexDirection: 'row', 
-    marginTop: hp(30)
-  },
-  coach: {
-    borderRadius: 50,
-    width: wp(58.89), 
-    height: hp(58.89),
-  },
-  goalkeeper: {
-    borderRadius: 50,
-    width: wp(58.89), 
-    height: hp(58.89),
+  separator: {
+    width: wp(40), 
+    marginTop: -5, 
+    textAlign: 'center'
   }
 });

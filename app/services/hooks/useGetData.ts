@@ -45,9 +45,21 @@ export default function useGetData() {
     }
   }
 
+  const getSchemas = async () => {
+    try {
+      const response = await api.get('/esquemas')
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
   return {
     getTeam,
     getStatusMarket,
-    getMyTeam
+    getMyTeam,
+    getSchemas
   }
 }
