@@ -51,6 +51,15 @@ export const styles = StyleSheet.create({
     flexDirection: 'row', 
     alignSelf: 'center'
   },
+  viewCoach: {
+    position: 'absolute', 
+    marginLeft: 10
+  },
+  viewGoalkeeper: {
+    width: '100%', 
+    alignItems: 'center', 
+    marginTop: windowHeight <= 480 ? -10 : 5
+  },
   lineBench: {
     width: wp(280),
     justifyContent: 'space-evenly',

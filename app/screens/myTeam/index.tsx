@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
-import {Dimensions} from 'react-native';
 
 // hooks
 import useGetData from '@services/hooks/useGetData';
 
 // components
 import Loader from '@components/Loader';
+import Schema_1 from '@components/Schema/Schema_1';
+import Schema_2 from '@components/Schema/Schema_2';
 import Schema_3 from '@components/Schema/Schema_3';
 import Bench from '@components/Schema/Bench';
 
@@ -14,26 +15,31 @@ import Bench from '@components/Schema/Bench';
 import { useUserStore } from '@store/user';
 
 // model
-import { User } from '../../model/User';
-import { MyTeam } from 'app/model/myTeam/MyTeam';
-import { Atleta } from '../../model/Atleta';
+import { User } from 'app/model/User';
+import { Atleta } from 'app/model/Atleta';
+import { Team } from 'app/model/team/Team';
+
+//styles
 import { styles } from './styles';
+import Schema_4 from '@components/Schema/Schema_4';
+import Schema_5 from '@components/Schema/Schema_5';
+import Schema_6 from '@components/Schema/Schema_6';
+import Schema_7 from '@components/Schema/Schema_7';
 
 export default function MyTeamScreen() {
-	const { getMyTeam, getSchemas } = useGetData();
+	const { getTeam, getMyTeam } = useGetData();
 
 	const user: User = useUserStore(state => state.user);
 
 	const [loading, setLoading] = useState(true);
 
-	const [team, setTeam] = useState<MyTeam>(new MyTeam());
-	const [teamPrice, setTeamPrice] = useState<number>(0);
-	
-	const windowHeight = Dimensions.get('window').height;
+	const [team, setTeam] = useState<Team>(new Team());
 
+	const [teamPrice, setTeamPrice] = useState<number>(0);
+	const [teamSchema, setTeamSchema] = useState<number>(0);
+	
 	const callGetData = async () => {
-    const teamResponse = await getMyTeam(user.idTeam);
-		//const schemaResponse = await getSchemas();    
+		const teamResponse = await getTeam();
 
     if (!teamResponse.error) {
 			// const newTeamResponse = teamResponse
@@ -55,6 +61,7 @@ export default function MyTeamScreen() {
 			// 	})
 
 			setTeamPrice(teamResponse.atletas.reduce((sum: number, item: Atleta) => sum += item.preco_num, 0));
+			setTeamSchema(teamResponse.time.esquema_id);
 			setTeam(teamResponse);
 			setLoading(false);
     }
@@ -63,9 +70,29 @@ export default function MyTeamScreen() {
 	useEffect(()=> {
     callGetData();
   }, []);
+	
 	if (loading) {
     return <Loader />
   }
+
+	const viewSchema = (schema: number) => {
+		switch (schema) {
+			case 1:
+				return <Schema_1 team={team} />
+			case 2: 
+				return <Schema_2 team={team} />
+			case 3:
+				return <Schema_3 team={team} />
+			case 4: 
+				return <Schema_4 team={team} />
+			case 5: 
+				return <Schema_5 team={team} />
+			case 6: 
+				return <Schema_6 team={team} />
+			case 7: 
+				return <Schema_7 team={team} />
+		}
+	}
 
 	return (
 		<ScrollView style={styles.viewScroll}>
@@ -74,7 +101,9 @@ export default function MyTeamScreen() {
 				<Icon name='clipboard-list-outline' size={28} color={'#000'}></Icon>
 			</View> */}
 
-			<Schema_3 team={team} />
+			{
+				viewSchema(teamSchema)
+			}
 			<View style={styles.values}>
 				<View style={styles.viewTeamPrice}>
 					<Text style={styles.text}>preço do time</Text>

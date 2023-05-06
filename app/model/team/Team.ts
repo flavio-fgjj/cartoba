@@ -4,6 +4,7 @@ import { Time } from "../Time";
 
 export class Team {
     atletas: Array<Atleta> = new Array();
+    reservas: Array<Atleta> = new Array();
     time: Time = new Time();
     pontos_campeonato: number = 0;
     capitao_id: number = 0;

@@ -15,8 +15,6 @@ export default function Player(props: Props) {
 	const player: Atleta = props?.athlete;
 	const cap: number = props?.capId;
 
-	console.log(player)
-
 	return (
 		<>
 			{player.atleta_id

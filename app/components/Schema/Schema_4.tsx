@@ -19,7 +19,7 @@ interface Props {
 	team: Team
 }
 
-export default function Schema_3(props: Props) {
+export default function Schema_4(props: Props) {
 	const team: Team = props?.team;
 
 	const goalkeeper: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 1)[0];
@@ -33,10 +33,10 @@ export default function Schema_3(props: Props) {
 	const middle1: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[0];
 	const middle2: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[1];
 	const middle3: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[2];
+	const middle4: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[3];
 	
 	const forward1: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[0];
 	const forward2: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[1];
-	const forward3: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[2];
 	
 	const coach: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 6)[0];
 
@@ -46,12 +46,12 @@ export default function Schema_3(props: Props) {
 		<View style={styles.lineForward}>
 			<Player athlete={forward1} capId={team.capitao_id} />
 			<Player athlete={forward2} capId={team.capitao_id} />
-			<Player athlete={forward3} capId={team.capitao_id} />
 		</View>
 		<View style={styles.lineMiddle}>
 			<Player athlete={middle1} capId={team.capitao_id} />
 			<Player athlete={middle2} capId={team.capitao_id} />
 			<Player athlete={middle3} capId={team.capitao_id} />
+			<Player athlete={middle4} capId={team.capitao_id} />
 		</View>
 		<View style={styles.lineBack}>
 			<Player athlete={side1} capId={team.capitao_id} />

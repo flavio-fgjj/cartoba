@@ -1,49 +1,26 @@
-import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 // style
 import {styles} from './styles';
 
-
 // model
 import { Atleta } from 'app/model/Atleta';
-import { MyTeam } from 'app/model/myTeam/MyTeam';
+import { Team } from 'app/model/team/Team';
 
 // components
-import Loader from '@components/Loader';
 import Player from '@components/Player';
 
 interface Props {
-	team: MyTeam
+	team: Team
 }
 
 export default function Bench(props: Props) {
-	const [loading, setLoading] = useState(true);
-
-	const [goalkeeper, setGoalkeeper] = useState<Atleta>(new Atleta());
-	const [side, setSide] = useState<Atleta>(new Atleta());
-	const [back, setBack] = useState<Atleta>(new Atleta());
-	const [middle, setMiddle] = useState<Atleta>(new Atleta());
-	const [forward, setForward] = useState<Atleta>(new Atleta());
+	const goalkeeper: Atleta = props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 1)[0] ?? {};
+	const side: Atleta = props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 2)[0] ?? {};
+	const back: Atleta = props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 3)[0] ?? {};
+	const middle: Atleta = props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 4)[0] ?? {};
+	const forward: Atleta = props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 5)[0] ?? {};
 	
-	const callGetData = async () => {
-    setGoalkeeper(props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 1)[0] ?? {});
-		setSide(props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 2)[0] ?? {});
-		setBack(props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 3)[0] ?? {});
-		setMiddle(props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 4)[0] ?? {});
-		setForward(props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 5)[0] ?? {});
-
-		setLoading(false);
-  };
-
-	useEffect(()=> {
-    callGetData();
-  }, []);
-
-	if (loading) {
-    return <Loader />
-  }
-
 	return (
 		<View style={styles.lineBench}>
 			<Player athlete={goalkeeper} capId={0} />

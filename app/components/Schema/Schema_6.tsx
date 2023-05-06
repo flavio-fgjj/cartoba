@@ -19,7 +19,7 @@ interface Props {
 	team: Team
 }
 
-export default function Schema_3(props: Props) {
+export default function Schema_6(props: Props) {
 	const team: Team = props?.team;
 
 	const goalkeeper: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 1)[0];
@@ -29,14 +29,14 @@ export default function Schema_3(props: Props) {
 	
 	const back1: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 3)[0];
 	const back2: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 3)[1];
+	const back3: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 3)[3];
 	
 	const middle1: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[0];
 	const middle2: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[1];
 	const middle3: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 4)[2];
-	
+
 	const forward1: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[0];
 	const forward2: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[1];
-	const forward3: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 5)[2];
 	
 	const coach: Atleta = props?.team.atletas.filter((atleta: Atleta) => atleta.posicao_id == 6)[0];
 
@@ -46,7 +46,6 @@ export default function Schema_3(props: Props) {
 		<View style={styles.lineForward}>
 			<Player athlete={forward1} capId={team.capitao_id} />
 			<Player athlete={forward2} capId={team.capitao_id} />
-			<Player athlete={forward3} capId={team.capitao_id} />
 		</View>
 		<View style={styles.lineMiddle}>
 			<Player athlete={middle1} capId={team.capitao_id} />
@@ -57,6 +56,7 @@ export default function Schema_3(props: Props) {
 			<Player athlete={side1} capId={team.capitao_id} />
 			<Player athlete={back1} capId={team.capitao_id} />
 			<Player athlete={back2} capId={team.capitao_id} />
+			<Player athlete={back3} capId={team.capitao_id} />
 			<Player athlete={side2} capId={team.capitao_id} />
 		</View> 
 		<View style={styles.lineGoalkeeper}>
