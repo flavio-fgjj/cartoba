@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // icons
@@ -13,7 +12,10 @@ import HeaderHome from '@components/HeaderHome';
 import Header from '@components/Header';
 
 // styles
-import {styles} from './styles';
+import { styles } from './styles';
+
+// util
+import { hp } from 'app/utils/adjustments';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +45,7 @@ export default function TabNavigator() {
               //   return <Icon name={'home'} size={size} color={color} />
               // }
 
-              return <Icon name="home-outline" size={size} color={color} />
+              return <Icon name="home-outline" size={hp(size)} color={color} />
           }, 
           headerTitle: (props) => <HeaderHome />
 
@@ -55,7 +57,7 @@ export default function TabNavigator() {
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size, focused }) => {
-              return <Icon name="tshirt-crew" size={size} color={color} />
+              return <Icon name="tshirt-crew" size={hp(size)} color={color} />
           },
           headerTitle: (props) => <Header />
         }}
@@ -66,7 +68,7 @@ export default function TabNavigator() {
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size, focused }) => {
-              return <Icon name="trophy" size={size} color={color} />
+              return <Icon name="trophy" size={hp(size)} color={color} />
           },
 					headerTitle: (props) => <Header />
         }}
@@ -77,7 +79,7 @@ export default function TabNavigator() {
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size, focused }) => {
-              return <Icon name="soccer-field" size={size} color={color} />
+              return <Icon name="soccer-field" size={hp(size)} color={color} />
           },
 					headerTitle: (props) => <Header />
         }}
@@ -88,7 +90,7 @@ export default function TabNavigator() {
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size, focused }) => {
-              return <Icon name="shoe-cleat" size={size} color={color} />
+              return <Icon name="shoe-cleat" size={hp(size)} color={color} />
           },
 					headerTitle: (props) => <Header />
         }}

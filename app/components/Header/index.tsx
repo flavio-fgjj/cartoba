@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import {View, Text, Image, Switch} from 'react-native';
+import { View, Text, Image, Switch } from 'react-native';
 
 // styles
-import {styles} from './styles';
+import { styles } from './styles';
 
 // assets
 import logo from '../../assets/logo.png';

@@ -13,11 +13,13 @@ import useGetData from '@services/hooks/useGetData';
 // model
 import { Team } from 'app/model/team/Team';
 import { Market } from 'app/model/status/Market';
-import { User } from 'app/model/User';
 
 // store
 import { useStatusStore } from '@store/statusMarket';
 import { useUserStore } from '@store/user';
+
+// assets
+import logo from '../../assets/logo.png';
 
 export const Home = () => {
   const increaseStatus = useStatusStore(state => state.increaseStatus);
@@ -105,7 +107,7 @@ export const Home = () => {
           />
         </View>
       }
-      <View style={{marginTop: 35}}>
+      <View style={styles.viewHome}>
         <Image style={styles.shield} source={{uri: team.time.url_escudo_png.toString()}} />
         <View style={styles.badge}>
           <Image source={{uri: team.time.foto_perfil.toString()}} style={styles.photo}/>
@@ -127,6 +129,7 @@ export const Home = () => {
           <Text style={styles.boxTextBold}>{team.pontos_campeonato.toFixed(2)}</Text>
         </View>
       </View>
+      <Image source={logo} />
     </View>
   );
 }

@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 
+// utils
+import { adjust,hp,wp } from 'app/utils/adjustments';
+
 export const styles = StyleSheet.create({
 	headerContainer: {
 		flexDirection: 'row',
@@ -8,12 +11,12 @@ export const styles = StyleSheet.create({
 		width: '100%'
 	},
 	logoHeader: {
-		width: 20,
-		height: 38
+		width: wp(20),
+		height: hp(38)
 	},
 	textHeader: {
 		color: '#fff',
-		fontSize: 18,
+		fontSize: adjust(18),
 		fontWeight: 'bold', 
 		paddingLeft: 20
 	},

@@ -1,5 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '../../colors';
+import { Dimensions } from 'react-native';
+
+// utils
+import { adjust,hp,wp } from 'app/utils/adjustments';
+
+const windowHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,10 +14,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 16,
   },
+  viewHome: {
+    marginTop: 35
+  },
   title: {
     fontWeight: 'bold',
 
-    fontSize: 20,
+    fontSize: adjust(20),
     textAlign: 'center',
   },
   coffText: {
@@ -19,34 +28,34 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   shield: {
-    width: 66,
-    height: 80,
+    width: wp(50),
+    height: hp(70),
   },
   photo: {
-    width: 30,
-    height: 30,
-    borderRadius: 50,
+    width: wp(25),
+    height: hp(30),
+    borderRadius: hp(30 / 2),
   },
   logoImg: {
     marginLeft: 5
   }, 
   badge: {
     position: 'absolute', 
-    right: -15, 
-    top: 50,
+    right: -5, 
+    top: windowHeight > 480 ? 40 : 30,
     backgroundColor: '#fff', 
     alignItems: 'center', 
     justifyContent: 'center', 
-    borderRadius: 50,
-    width: 30, 
-    height: 30
+    borderRadius: hp(30 / 2),
+    width: wp(25), 
+    height: hp(30)
   },
   box: {
     width: '80%',
-    height: 80,
+    height: hp(80),
     backgroundColor: '#F6F6F6',
-		marginVertical: 8,
-		marginHorizontal: 16,
+		paddingLeft: 16,
+    paddingRight: 16,
 		borderRadius: 6,
 
 		flexDirection: "row",
@@ -59,14 +68,12 @@ export const styles = StyleSheet.create({
 		// iOS
 		shadowColor: '#000',
 		shadowOffset: {
-				width: 0,
-				height: 2,
+				width: wp(0),
+				height: hp(2),
 		},
 		shadowOpacity: 0.23,
 		shadowRadius: 2.62,
-
-    marginTop: 20,
-    padding: 20
+    marginTop: 15
   },
   boxColumn: {
     display: 'flex', 
@@ -75,12 +82,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   boxText: {
-    fontSize: 10,
+    fontSize: adjust(10),
     color: '#999',
     textTransform: 'uppercase'
   },
   boxTextBold: {
-    fontSize: 18,
+    fontSize: adjust(18),
     color: '#333'
   }, 
   market: {
@@ -90,7 +97,7 @@ export const styles = StyleSheet.create({
   }, 
   closeMarket: {
     color: '#333',
-    fontSize: 44,
+    fontSize: adjust(44),
     fontWeight: 'bold', 
   }
 });

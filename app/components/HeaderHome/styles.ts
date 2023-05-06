@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
 
+// utils
+import { adjust,hp,wp } from 'app/utils/adjustments';
+import { colors } from 'app/colors';
+
 export const styles = StyleSheet.create({
 	headerHomeContainer: {
 		flexDirection: 'row',
@@ -8,14 +12,13 @@ export const styles = StyleSheet.create({
 		width: '100%'
 	},
 	logoHeaderHome: {
-		width: 20,
-		height: 38
+		width: wp(20),
+		height: hp(38)
 	},
 	textHeaderHome: {
 		color: '#fff',
-		fontSize: 18,
-		fontWeight: 'bold', 
-		paddingLeft: 20
+		fontSize: adjust(18),
+		fontWeight: 'bold'
 	},
 	viewLeft: {
 		flexDirection: 'row',
@@ -29,14 +32,14 @@ export const styles = StyleSheet.create({
 	},
 	modalView: {
 		margin: 20,
-		backgroundColor: '#ff7b0d',
+		backgroundColor: colors.primary,
 		borderRadius: 20,
 		padding: 35,
 		alignItems: 'center',
 		shadowColor: '#000',
 		shadowOffset: {
-				width: 0,
-				height: 2,
+			width: wp(0),
+			height: hp(2),
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 4,

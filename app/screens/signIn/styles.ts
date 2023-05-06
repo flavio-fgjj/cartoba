@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 
+// utils
+import { wp } from 'app/utils/adjustments';
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -10,6 +13,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   img: {
-    width: 150,
+    width: wp(150),
   },
 });

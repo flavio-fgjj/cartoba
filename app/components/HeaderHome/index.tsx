@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import {View, Text, Image, Modal, Pressable} from 'react-native';
+import {View, Text, Modal, Pressable} from 'react-native';
 
 // icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // styles
-import {styles} from './styles';
+import { styles } from './styles';
 
-// assets
-import logo from '../../assets/logo.png';
+// utils
+import { hp } from 'app/utils/adjustments';
 
 export default function HeaderHome() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.headerHomeContainer}>
       <View style={styles.viewLeft}>
-        <Image source={logo} style={styles.logoHeaderHome}></Image>
         <Text style={styles.textHeaderHome}>CartóBa</Text>
       </View>
       <View >
@@ -31,13 +30,13 @@ export default function HeaderHome() {
             <Text style={styles.modalText}>App NÃO OFICIAL do game</Text>
             <Text style={styles.modalText}>Cartola da globo.com</Text>
             <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <Icon name='close-circle-outline' size={30} color={'#fff'}></Icon>
+            <Icon name='close-circle-outline' size={hp(30)} color={'#fff'}></Icon>
             </Pressable>
           </View>
         </View>
       </Modal>
       <Pressable onPress={() => setModalVisible(true)}>
-          <Icon name='information-outline' size={30} color={'#ff7b0d'}></Icon>
+          <Icon name='information-outline' size={hp(30)} color={'#fff'}></Icon>
       </Pressable>
       </View>
     </View>

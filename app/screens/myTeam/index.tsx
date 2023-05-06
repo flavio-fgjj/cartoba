@@ -9,6 +9,10 @@ import Loader from '@components/Loader';
 import Schema_1 from '@components/Schema/Schema_1';
 import Schema_2 from '@components/Schema/Schema_2';
 import Schema_3 from '@components/Schema/Schema_3';
+import Schema_4 from '@components/Schema/Schema_4';
+import Schema_5 from '@components/Schema/Schema_5';
+import Schema_6 from '@components/Schema/Schema_6';
+import Schema_7 from '@components/Schema/Schema_7';
 import Bench from '@components/Schema/Bench';
 
 // store
@@ -21,10 +25,9 @@ import { Team } from 'app/model/team/Team';
 
 //styles
 import { styles } from './styles';
-import Schema_4 from '@components/Schema/Schema_4';
-import Schema_5 from '@components/Schema/Schema_5';
-import Schema_6 from '@components/Schema/Schema_6';
-import Schema_7 from '@components/Schema/Schema_7';
+
+// icons
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function MyTeamScreen() {
 	const { getTeam, getMyTeam } = useGetData();
@@ -96,11 +99,10 @@ export default function MyTeamScreen() {
 
 	return (
 		<ScrollView style={styles.viewScroll}>
-			{/* <View style={{width: '100%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'flex-end'}}>
+			<View style={{width: '100%', paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'flex-end', position: 'absolute'}}>
 				<Icon name='soccer-field' size={30} color={'#000'}></Icon>
-				<Icon name='clipboard-list-outline' size={28} color={'#000'}></Icon>
-			</View> */}
-
+				{/* <Icon name='clipboard-list-outline' size={28} color={'#000'}></Icon> */}
+			</View>
 			{
 				viewSchema(teamSchema)
 			}

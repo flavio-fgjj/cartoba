@@ -13,9 +13,6 @@ export const styles = StyleSheet.create({
     width: wp(350),
     paddingHorizontal: 30,
     paddingVertical: 5
-    // alignContent: 'center',
-    // alignItems: 'center',
-    // justifyContent: 'center'
   },
   backgroundImg: {
     position: 'absolute',
@@ -67,4 +64,43 @@ export const styles = StyleSheet.create({
     flexDirection: 'row', 
     paddingBottom: 30
   },
+  benchTitle: {
+    fontWeight: 'bold',
+    fontSize: adjust(20),
+    color: '#000',
+    textAlign: 'center',
+    textTransform: 'uppercase'
+  },
+  viewPlayer: {
+    alignItems: 'center',
+    height: hp(70),
+  },
+  playerName: {
+    backgroundColor: '#1c813e', 
+    textAlign: 'center', 
+    color: '#aaa', 
+    marginTop: 3, 
+    borderRadius: 4, 
+    paddingHorizontal: 10, 
+    overflow: 'hidden',
+    fontSize: adjust(10)
+  },
+  playerPrice: {
+    backgroundColor: '#fff', 
+    textAlign: 'center', 
+    color: '#000', 
+    marginTop: 2, 
+    borderRadius: 4, 
+    overflow: 'hidden', 
+    paddingHorizontal: 10, 
+    marginBottom: 3,
+    fontSize: adjust(10)
+  },
+  player: {
+		borderRadius: adjust(40 / 2),
+		width: wp(28.89), 
+		height: hp(40),
+		resizeMode: 'contain',
+		backgroundColor: '#fff'
+	}
 });
