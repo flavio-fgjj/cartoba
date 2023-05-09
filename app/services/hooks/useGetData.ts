@@ -56,10 +56,22 @@ export default function useGetData() {
     }
   }
 
+  const getLeagues = async () => {
+    try {
+      const response = await api.get('/auth/ligas', { headers })
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
   return {
     getTeam,
     getStatusMarket,
     getMyTeam,
-    getSchemas
+    getSchemas,
+    getLeagues
   }
 }

@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 		color: '#fff',
 		fontSize: adjust(18),
 		fontWeight: 'bold', 
-		paddingLeft: 20
+		paddingLeft: 5
 	},
 	viewLeft: {
 		flexDirection: 'row',

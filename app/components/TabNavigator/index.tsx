@@ -16,6 +16,7 @@ import { styles } from './styles';
 
 // util
 import { hp } from 'app/utils/adjustments';
+import MyLeagues from '@screens/myLeagues';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +65,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Minhas Ligas"
-        component={Games}
+        component={MyLeagues}
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size, focused }) => {

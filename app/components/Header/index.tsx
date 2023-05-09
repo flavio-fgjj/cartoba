@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { View, Text, Image, Switch } from 'react-native';
 
+// icons
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 // styles
 import { styles } from './styles';
 
@@ -10,17 +13,21 @@ import logo from '../../assets/logo.png';
 // store
 import { useStatusStore } from '../../store/statusMarket';
 
-export default function Header() {
-	const increaseStatus = useStatusStore(state => state.increaseStatus);
-	const statusMarket = increaseStatus.statusMarket == 1;
+// utils
+import { hp } from 'app/utils/adjustments';
 
-	const [isEnabled, setIsEnabled] = useState(statusMarket);
+export default function Header() {
+const increaseStatus = useStatusStore(state => state.increaseStatus);
+const statusMarket = increaseStatus.statusMarket == 1;
+
+const [isEnabled, setIsEnabled] = useState(statusMarket);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.viewLeft}>
-        <Image source={logo} style={styles.logoHeader}></Image>
+        {/* <Image source={logo} style={styles.logoHeader}></Image> */}
+			<Icon name='soccer' size={hp(30)} color={'#fff'}></Icon>
         <Text style={styles.textHeader}>CartóBa</Text>
       </View>
 				<Switch

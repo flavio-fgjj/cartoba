@@ -30,7 +30,7 @@ import { styles } from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function MyTeamScreen() {
-	const { getTeam, getMyTeam } = useGetData();
+	const { getTeam } = useGetData();
 
 	const user: User = useUserStore(state => state.user);
 
@@ -104,7 +104,7 @@ export default function MyTeamScreen() {
 				{/* <Icon name='clipboard-list-outline' size={28} color={'#000'}></Icon> */}
 			</View>
 			{
-				viewSchema(teamSchema)
+				team ? viewSchema(teamSchema) : <></>
 			}
 			<View style={styles.values}>
 				<View style={styles.viewTeamPrice}>

@@ -5,11 +5,12 @@ import { adjust, hp, wp } from 'app/utils/adjustments';
 export const styles = StyleSheet.create({
   viewScroll: {
     flex: 1, 
-    marginBottom: hp(60)
+    marginBottom: hp(30)
   },
   values: {
     flexDirection: 'row', 
     justifyContent: 'center', 
+    marginTop: -15,
     marginBottom: 10
   },
   viewTeamPrice: {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {View, Text, Modal, Pressable} from 'react-native';
+import {View, Text, Modal, Pressable, Image} from 'react-native';
 
 // icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,11 +10,13 @@ import { styles } from './styles';
 // utils
 import { hp } from 'app/utils/adjustments';
 
+
 export default function HeaderHome() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.headerHomeContainer}>
       <View style={styles.viewLeft}>
+        <Icon name='soccer' size={hp(30)} color={'#fff'}></Icon>
         <Text style={styles.textHeaderHome}>CartóBa</Text>
       </View>
       <View >

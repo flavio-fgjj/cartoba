@@ -1,5 +1,5 @@
 import { Esquema } from "../Esquema";
 
 export class Schema {
-    esquemas: Array<Esquema> = []
+	esquemas: Array<Esquema> = []
 }

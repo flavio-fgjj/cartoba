@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
   lineGoalkeeper: {
     width: wp(300),
     height: hp(100),
-    padding: 20,
+    // padding: 20,
     flexDirection: 'row', 
     alignSelf: 'center'
   },
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   },
   benchTitle: {
     fontWeight: 'bold',
-    fontSize: adjust(20),
+    fontSize: adjust(14),
     color: '#000',
     textAlign: 'center',
     textTransform: 'uppercase'

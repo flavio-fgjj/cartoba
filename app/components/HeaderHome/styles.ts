@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
 	textHeaderHome: {
 		color: '#fff',
 		fontSize: adjust(18),
-		fontWeight: 'bold'
+		fontWeight: 'bold', 
+		paddingLeft: 5
 	},
 	viewLeft: {
 		flexDirection: 'row',
