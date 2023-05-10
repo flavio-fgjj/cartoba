@@ -7,6 +7,13 @@ export const styles = StyleSheet.create({
     flex: 1, 
     marginBottom: hp(30)
   },
+  viewType: {
+    width: '100%', 
+    paddingHorizontal: 10,
+    flexDirection: 'row', 
+    justifyContent: 'flex-end', 
+    position: 'absolute'
+  },
   values: {
     flexDirection: 'row', 
     justifyContent: 'center', 

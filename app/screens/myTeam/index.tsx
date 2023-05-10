@@ -29,6 +29,9 @@ import { styles } from './styles';
 // icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// utils
+import { hp } from 'app/utils/adjustments';
+
 export default function MyTeamScreen() {
 	const { getTeam } = useGetData();
 
@@ -99,8 +102,8 @@ export default function MyTeamScreen() {
 
 	return (
 		<ScrollView style={styles.viewScroll}>
-			<View style={{width: '100%', paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'flex-end', position: 'absolute'}}>
-				<Icon name='soccer-field' size={30} color={'#000'}></Icon>
+			<View style={styles.viewType}>
+				<Icon name='soccer-field' size={hp(30)} color={'#000'}></Icon>
 				{/* <Icon name='clipboard-list-outline' size={28} color={'#000'}></Icon> */}
 			</View>
 			{

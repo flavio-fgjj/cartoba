@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 const initialToken = {
-    token: '',
+	token: '',
 };
 
 export const useTokenStore = create((set) => ({
-    ...initialToken, 
-    increaseToken: (t) => set(() => ({ token: t})),
-    decreaseToken: () => set(() => ({ token: ''}))
+	...initialToken, 
+	increaseToken: (t) => set(() => ({ token: t})),
+	decreaseToken: () => set(() => ({ token: ''}))
 }))

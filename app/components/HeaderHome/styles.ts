@@ -16,9 +16,9 @@ export const styles = StyleSheet.create({
 		height: hp(38)
 	},
 	textHeaderHome: {
-		color: '#fff',
-		fontSize: adjust(18),
-		fontWeight: 'bold', 
+		color: '#000',
+		fontSize: adjust(16),
+		fontWeight: '400', 
 		paddingLeft: 5
 	},
 	viewLeft: {
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
 	},
 	modalView: {
 		margin: 20,
-		backgroundColor: colors.primary,
+		backgroundColor: '#fff',
 		borderRadius: 20,
 		padding: 35,
 		alignItems: 'center',
@@ -52,6 +52,8 @@ export const styles = StyleSheet.create({
 		elevation: 2,
 	},
 	modalText: {
+		fontSize: adjust(20),
+		color: colors.primary,
 		marginBottom: 15,
 		textAlign: 'center',
 	},

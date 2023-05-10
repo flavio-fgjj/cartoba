@@ -13,6 +13,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // utils
 import { hp } from 'app/utils/adjustments';
 
+// components
+import Photo from './Photo';
+
 interface Props {
 	team: Team
 }
@@ -24,7 +27,7 @@ export default function Bench(props: Props) {
 	const middle: Atleta = props?.team.reservas ? props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 4)[0] : new Atleta();
 	const forward: Atleta = props?.team.reservas ? props?.team.reservas.filter((bench: Atleta) => bench.posicao_id == 5)[0] : new Atleta();
 	
-	const hasBench = props?.team.reservas ?? false;
+	const hasBench = props?.team.reservas ? true : false;
 
 	return (
 		<View>
@@ -33,56 +36,60 @@ export default function Bench(props: Props) {
 
 				<View style={styles.viewPlayer}>
 					<Text style={styles.playerPrice}>{goalkeeper?.pontos_num > 0 ? goalkeeper?.pontos_num : '-'}</Text>
-					{
+					<Photo player={goalkeeper} hasBench={hasBench} />
+					{/* {
 						hasBench
 						? <Image source={{uri: goalkeeper?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
 						: <Icon name="plus" size={hp(50)} />
-					}
+					} */}
 					<Text>{goalkeeper?.apelido_abreviado}</Text>
 					<Text>GOL</Text>
 				</View>
 
 				<View style={styles.viewPlayer}>
 					<Text style={styles.playerPrice}>{side?.pontos_num > 0 ? side?.pontos_num : '-'}</Text>
-					{
+					{/* {
 						hasBench
 						? <Image source={{uri: side?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
 						: <Icon name="plus" size={hp(50)} />
-					}
-					<Image source={{uri: side?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
+					} */}
+					<Photo player={side} hasBench={hasBench} />
 					<Text>{side?.apelido_abreviado}</Text>
 					<Text>LAT</Text>
 				</View>
 
 				<View style={styles.viewPlayer}>
 					<Text style={styles.playerPrice}>{back?.pontos_num > 0 ? back?.pontos_num : '-'}</Text>
-					{
+					{/* {
 						hasBench
 						? <Image source={{uri: back?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
 						: <Icon name="plus" size={hp(50)} />
-					}
+					} */}
+					<Photo player={back} hasBench={hasBench} />
 					<Text>{back?.apelido_abreviado}</Text>
 					<Text>ZAG</Text>
 				</View>
 
 				<View style={styles.viewPlayer}>
 					<Text style={styles.playerPrice}>{middle?.pontos_num > 0 ? middle?.pontos_num : '-'}</Text>
-					{
+					{/* {
 						hasBench
 						? <Image source={{uri: middle?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
 						: <Icon name="plus" size={hp(50)} />
-					}
+					} */}
+					<Photo player={middle} hasBench={hasBench} />
 					<Text>{middle?.apelido_abreviado}</Text>
 					<Text>MEI</Text>
 				</View>
 
 				<View style={styles.viewPlayer}>
 					<Text style={styles.playerPrice}>{forward?.pontos_num > 0 ? forward?.pontos_num : '-'}</Text>
-					{
+					{/* {
 						hasBench
 						? <Image source={{uri: forward?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
 						: <Icon name="plus" size={hp(50)} />
-					}
+					} */}
+					<Photo player={forward} hasBench={hasBench} />
 					<Text>{forward?.apelido_abreviado}</Text>
 					<Text>ATA</Text>
 				</View>

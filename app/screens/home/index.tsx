@@ -23,6 +23,9 @@ import logo from '../../assets/logo.png';
 
 export const Home = () => {
   const increaseStatus = useStatusStore(state => state.increaseStatus);
+  const increaseRodadaAtual = useStatusStore(state => state.increaseRodadaAtual);
+  const increaseNomeRodada = useStatusStore(state => state.increaseNomeRodada);
+
   const increaseUser = useUserStore((state: any) => state.increaseUser);
   const decreaseUser = useUserStore((state: any) => state.decreaseUser);
 
@@ -46,9 +49,13 @@ export const Home = () => {
     
     if (!teamResponse.error && !statusMarketResponse.error) {
       setTeam(teamResponse);
+      
       setStatusMarket(statusMarketResponse);
-      increaseStatus(statusMarketResponse.status_mercado);
 
+      increaseStatus(statusMarketResponse.status_mercado);
+      increaseRodadaAtual(statusMarketResponse.rodada_atual);
+      increaseNomeRodada(statusMarketResponse.nome_rodada);
+      
       decreaseUser();
       increaseUser({
         idTeam: teamResponse.time.time_id.toString(), 
@@ -68,8 +75,9 @@ export const Home = () => {
       setCloseDay(statusMarketResponse.fechamento.dia - actualDate.getDate());
 
       const c = statusMarketResponse.fechamento.dia - actualDate.getDate();
+      const daysLeft = c == 1 ? 'DIA' : 'DIAS'
       setCloseMarket(c > 0 
-        ? `${c.toString()} DIAS` 
+        ? `${c.toString()} ${daysLeft}` 
         : `HOJE ÀS ${statusMarketResponse.fechamento.hora.toString()}:${statusMarketResponse.fechamento.minuto.toString()}`
       );
 

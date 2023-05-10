@@ -15,9 +15,9 @@ export const styles = StyleSheet.create({
 		height: hp(38)
 	},
 	textHeader: {
-		color: '#fff',
-		fontSize: adjust(18),
-		fontWeight: 'bold', 
+		color: '#000',
+		fontSize: adjust(16),
+		fontWeight: '400', 
 		paddingLeft: 5
 	},
 	viewLeft: {

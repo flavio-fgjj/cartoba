@@ -25,10 +25,8 @@ const SignInScreen = () => {
 
     if (data) {
       const parsedData = JSON.parse(data);
-      console.log(parsedData)
       const glbid = parsedData['glbid'];
 
-      console.log('glbid', glbid)
       if (glbid) {
         increaseToken(glbid);
       }

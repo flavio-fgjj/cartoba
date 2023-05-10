@@ -1,4 +1,6 @@
-export class League {
+export class ConvertedLeague {
+	generatedId: number = 0;
+	isExpanded: boolean = false;
 	liga_id: number = 0;
 	time_dono_id: number | undefined = 0;
 	clube_id: number = 0
