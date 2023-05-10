@@ -43,7 +43,7 @@ export default function HeaderHome() {
         </View>
       </Modal>
       <Pressable onPress={() => setModalVisible(true)}>
-          <Icon name='information-outline' size={hp(25)} color={'#fff'}></Icon>
+        <Icon name='information-outline' size={hp(25)} color={'rgba(0, 0, 0, 0.7)'}></Icon>
       </Pressable>
       </View>
     </View>

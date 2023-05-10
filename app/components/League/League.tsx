@@ -11,76 +11,10 @@ import { styles } from './styles';
 import { hp } from 'app/utils/adjustments';
 
 // model
-import { League } from 'app/model/league/League';
 import { ConvertedLeague } from 'app/model/league/ConvertedLeague';
 
-class Dummy {
-  id: number = 0;
-  isExpanded: boolean = false;
-  category_name: string = '';
-  subcategory: Array<SubCategory> = [];
-}
-
-class SubCategory {
-  id: number = 0; 
-  val: string = '';
-}
-
-// Dummy
-const Content: Array<Dummy>= [
-  {
-    id: 1,
-    isExpanded: false, 
-    category_name: 'Item 1', 
-    subcategory: [
-      {id: 1, val: 'Sub 1'}, 
-      {id: 2, val: 'Sub 2'}
-    ]
-  }, 
-  {
-    id: 2,
-    isExpanded: false, 
-    category_name: 'Item 2', 
-    subcategory: [
-      {id: 3, val: 'Sub 4'}, 
-      {id: 4, val: 'Sub 5'}
-    ]
-  },
-  {
-    id: 3,
-    isExpanded: false, 
-    category_name: 'Item 3', 
-    subcategory: [
-      {id: 5, val: 'Sub 6'}, 
-      {id: 6, val: 'Sub 7'}
-    ]
-  },
-  {
-    id: 4,
-    isExpanded: false, 
-    category_name: 'Item 4', 
-    subcategory: [
-      {id: 7, val: 'Sub 8'}, 
-      {id: 8, val: 'Sub 9'}
-    ]
-  },
-  {
-    id: 5,
-    isExpanded: false, 
-    category_name: 'Item 5', 
-    subcategory: [
-      {id: 9, val: 'Sub 10'}, 
-    ]
-  },
-  {
-    id: 6,
-    isExpanded: false, 
-    category_name: 'Item 6', 
-    subcategory: [
-      {id: 10, val: 'Sub 11'}
-    ]
-  }
-]
+// components
+import LeagueTeams from './LeagueTeams';
 
 const ItemInsideExpandable = (item: ConvertedLeague) => {
   return (
@@ -97,6 +31,8 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
   useEffect(() => {
     setLayoutHeight(item.isExpanded ? hp(350) : hp(0))
   }, [item.isExpanded]);
+
+  const c: boolean = false;
 
   return (
     <View style={{ padding: 5 }}>
@@ -115,10 +51,16 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
         </View>
       </TouchableOpacity>
       {/* <View style={{paddingVertical: 5}} /> */}
-      <View style={{height: hp(layoutHeight), overflow: 'hidden'}}>
-        <Text>Liga ID: {item.liga_id}</Text>
-        <Text>Nome: {item.nome}</Text>
-      </View>
+      
+      {/* <View style={{height: hp(layoutHeight), overflow: 'hidden'}}> */}
+        {/* <Text>Liga ID: {item.liga_id}</Text>
+        <Text>Nome: {item.nome}</Text> */}
+        {
+          item.isExpanded && <LeagueTeams slug={item.slug}/>
+        }
+        
+      {/* </View> */}
+
       {/* <FlatList
         style={{height: hp(layoutHeight), overflow: 'hidden'}}
         data={item.liga_id}
@@ -166,7 +108,7 @@ const Leagues = (props: Props) => {
 
   return (
     <View style={styles.container}> 
-      <View style={styles.header}>
+      {/* <View style={styles.header}> */}
         {/* <Text style={styles.titleText}>
           {typeLeague}
         </Text> */}
@@ -181,7 +123,7 @@ const Leagues = (props: Props) => {
           </Text>
 
         </TouchableOpacity> */}
-      </View>
+      {/* </View> */}
 
       <FlatList
         data={listDataSource}
