@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { View, Text, Switch } from 'react-native';
 
 // icons
@@ -19,9 +18,6 @@ import { hp } from 'app/utils/adjustments';
 export default function Header() {
   const increaseStatus = useStatusStore(state => state);
   const statusMarket = increaseStatus.statusMarket == 1;
-
-  // const [isEnabled, setIsEnabled] = useState(!statusMarket);
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <View style={styles.headerContainer}>

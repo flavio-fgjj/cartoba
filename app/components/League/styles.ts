@@ -65,6 +65,30 @@ export const styles = StyleSheet.create({
     width: wp(30), 
     height: hp(48),
     resizeMode: 'cover',
-    // backgroundColor: colors.primary,
-  }
+  },
+  team: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+
+    backgroundColor: '#F6F6F6',
+		paddingLeft: 16,
+    paddingRight: 16,
+  },
+  teamNameView: {
+    paddingLeft: 16
+  }, 
+  teamNameText: {
+    fontSize: adjust(12),
+    fontWeight: 'bold'
+  }, 
+  teamOwnerText: {
+    fontSize: adjust(10),
+    fontWeight: 'normal'
+  },
+  shield: {
+    width: wp(25), 
+    height: hp(30),
+    resizeMode: 'contain',
+  },
 });

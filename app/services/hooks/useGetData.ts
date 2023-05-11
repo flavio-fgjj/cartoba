@@ -10,6 +10,8 @@ export default function useGetData() {
 
 	const headers = {
 		'X-GLB-Token': token,
+    'Content-Type': 'text/plain',
+    'Cookie': `GLBID=${token}`,
 	}
 
   const getTeam = async () => {
@@ -78,12 +80,24 @@ export default function useGetData() {
     }
   }
 
+  const getScoredAthletes = async () => {
+    try {
+      const response = await api.get(`/atletas/pontuados`, { headers })
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
   return {
     getTeam,
     getStatusMarket,
     getMyTeam,
     getSchemas,
     getLeagues,
-    getLeagueTeams
+    getLeagueTeams,
+    getScoredAthletes
   }
 }
