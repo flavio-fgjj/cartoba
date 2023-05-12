@@ -91,4 +91,12 @@ export const styles = StyleSheet.create({
     height: hp(30),
     resizeMode: 'contain',
   },
+  titlePoints: {
+    fontSize: adjust(9),
+    fontWeight: 'bold'
+  }, 
+  points: {
+    fontSize: adjust(11),
+    fontWeight: 'bold'
+  },
 });

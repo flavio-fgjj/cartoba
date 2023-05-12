@@ -32,18 +32,9 @@ const LeagueTeams = (props: Props) => {
   const { getLeagueTeams, getScoredAthletes, getMyTeam } = useGetData();
 
   const [teams, setTeams] = useState<Array<MyTeamPartial>>([]);
+  const [teamsByChamps, setTeamsByChamps] = useState<Array<MyTeamPartial>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [byChampionship, setByChampionship] = useState<boolean>(false);
-
-  // const getTotalPoints = async (_team: Time, athletes: Array<Atleta>) => {
-  //   let points: number = 0;
-      
-  //   athletes.forEach((a: any, index: number) => {
-  //     points += athletes[_team.atleta_id].pontuacao
-  //   });
-  //     console.log(team.nome, points)
-  //     teamsWithPoints.push({...team, pontuacao: points})
-  // }
 
   const getPointsByTeam = async (_teams: MyTeam, scoredAthletes: any) => {
     let points: number = 0;
@@ -66,9 +57,7 @@ const LeagueTeams = (props: Props) => {
       }
     }
     const n: MyTeamPartial = {..._teams, pontuacao: points};
-    if (_teams.time.time_id == 976787) {
-      console.log(n)
-    }
+    n.pontos_campeonato = n.pontos_campeonato + points;
     return n;
   }
 
@@ -81,67 +70,64 @@ const LeagueTeams = (props: Props) => {
       let teamsWithPoints: Array<MyTeamPartial> = [];
       for (const team of leagueTeamsResponse?.times) {
         const t = await getMyTeam(team.time_id.toString())
-        //const points: number = await getPointsByTeam(t, scoredAthletesResponse);
         teamsWithPoints.push(await getPointsByTeam(t, scoredAthletesResponse))
-      
-      
-        // for (const team of teamsResponse?.times) {
-      //   const t = await getMyTeam(team.time_id.toString())
-      //   let points: number = 0;
-      //   t?.atletas.forEach((a: any, index: number) => {
-      //     points += scoredAthletesResponse?.atletas[t?.atletas[0].atleta_id].pontuacao
-      //   });
-      //   teamsWithPoints.push({...t, pontuacao: points})
-
-      //   console.log(t?.atletas[0].nome, scoredAthletesResponse?.atletas[t?.atletas[0].atleta_id].pontuacao)
-      // }
-        
-      //console.log(t?.time.nome, points.toFixed(2))
-
-      // teamsResponse?.times.forEach((team: Time) => {
-      //   scoredAthletesResponse?.atletas?.filter((athlete: any) => {
-      //     athlete[]
-      //   })
-      //   console.log(team.nome)
-      // })
-
-      // teamsResponse?.filter((league: League) => league.time_dono_id != null)
-			// 	.map((league: League, key: number) => {
-			// 		return {generatedId: key, isExpandable: false, ...league}
-			// 	}))
       }
 
-      // console.log(teamsResponse)
+      // const byRodada: Array<MyTeamPartial> = teamsWithPoints.sort((a, b) => {
+      //   const pointA = a.pontuacao
+      //   const pointB = b.pontuacao
+      //   if (pointA > pointB) {
+      //     return -1;
+      //   }
+      //   if (pointA < pointB) {
+      //     return 1;
+      //   }
+
+      //   return 0;
+      // });
+
+      // const byChamps: Array<MyTeamPartial> = teamsWithPoints.sort((a: MyTeamPartial, b: MyTeamPartial) => {
+      //   const pointA = a.pontos_campeonato
+      //   const pointB = b.pontos_campeonato
+      //   if (pointA > pointB) {
+      //     return -1;
+      //   }
+      //   if (pointA < pointB) {
+      //     return 1;
+      //   }
+
+      //   return 0;
+      // });
+
       setTeams(teamsWithPoints);
+      //setTeamsByChamps(byChamps);
       setLoading(false);
     }
   };
 
   useEffect(() => {
     callGetData();
-  }, []);
+  }, [byChampionship]);
 
   if (loading) {
     return <Loader />
   }
 
-  // const RadioIcon = () => {
-  //   setByChampionship(!byChampionship);
-  //   byChampionship
-  //   ? 
-  // }
-
   const Teams = ({item}: any) => {
     return (
       <View key={item.time.time_id} style={styles.team}>
         <Image source={{uri: item.time.url_escudo_png}} style={styles.shield}/>
-        <View style={styles.teamNameView}>
+        <View style={[styles.teamNameView, {width: '50%'}]}>
           <Text style={styles.teamNameText}>{item.time.nome}</Text>
           <Text style={styles.teamOwnerText}>{item.time.nome_cartola}</Text>
         </View>
-        <View style={styles.teamNameView}>
-          <Text style={styles.teamNameText}>PONTOS</Text>
-          <Text style={styles.teamOwnerText}>{item.pontuacao.toFixed(2)}</Text>
+        <View style={[styles.teamNameView, {alignItems: 'center'}]}>
+          <Text style={styles.titlePoints}>RODADA</Text>
+          <Text style={styles.points}>{item.pontuacao.toFixed(2)}</Text>
+        </View>
+        <View style={[styles.teamNameView, {alignItems: 'center'}]}>
+          <Text style={styles.titlePoints}>CAMPEONATO</Text>
+          <Text style={styles.points}>{(item.pontos_campeonato).toFixed(2)}</Text>
         </View>
       </View>
     )
@@ -168,11 +154,44 @@ const LeagueTeams = (props: Props) => {
         </Pressable>
       </View>
       <View style={styles.separator} />
-      <FlatList
-        data={teams}
-        keyExtractor={({ slug }) => slug}
-        renderItem={({ item }) => <Teams item={item} key={item.time_id} />}  
-      />
+      {
+        <FlatList
+            data={
+              !byChampionship
+              ? teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
+                const pointA = a.pontuacao
+                const pointB = b.pontuacao
+                if (pointA > pointB) {
+                  return -1;
+                }
+                if (pointA < pointB) {
+                  return 1;
+                }
+          
+                return 0;
+              })
+              : teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
+                const pointA = a.pontos_campeonato
+                const pointB = b.pontos_campeonato
+                if (pointA > pointB) {
+                  return -1;
+                }
+                if (pointA < pointB) {
+                  return 1;
+                }
+          
+                return 0;
+              })
+            }
+            //keyExtractor={({ capitao_id }) => capitao_id}
+            renderItem={({ item }) => <Teams item={item} key={item.time.time_id} />}  
+          />
+      }
+      {/* <FlatList
+        data={byChampionship ? teamsByChamps : teams}
+        //keyExtractor={({ capitao_id }) => capitao_id}
+        renderItem={({ item }) => <Teams item={item} key={item.time.time_id} />}  
+      /> */}
     </View>
   )
 }
