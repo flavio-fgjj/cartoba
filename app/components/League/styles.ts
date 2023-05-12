@@ -67,6 +67,7 @@ export const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   team: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
@@ -103,5 +104,16 @@ export const styles = StyleSheet.create({
     width: wp(35), 
     height: hp(40),
     resizeMode: 'contain',
+  },
+  headerFooterStyle: {
+    width: '100%',
+    height: 45,
+    backgroundColor: '#606070',
+  },
+  textStyle: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 18,
+    padding: 7,
   },
 });

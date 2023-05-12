@@ -51,7 +51,7 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
         </View>
       </TouchableOpacity>
       {
-        item.isExpanded && <LeagueTeams slug={item.slug}/>
+        item.isExpanded && <LeagueTeams slug={item.slug} leagueName={item.name}/>
       }
     </View>
   )
