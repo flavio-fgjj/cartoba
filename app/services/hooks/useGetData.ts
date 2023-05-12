@@ -84,6 +84,10 @@ export default function useGetData() {
     try {
       const response = await api.get(`/atletas/pontuados`, { headers })
 
+      if (response.status.toString() === "204") {
+        return []
+      }
+
       return response.data
     } catch (error) {
       console.log({ error })

@@ -50,23 +50,9 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
           <Text>1°</Text>
         </View>
       </TouchableOpacity>
-      {/* <View style={{paddingVertical: 5}} /> */}
-      
-      {/* <View style={{height: hp(layoutHeight), overflow: 'hidden'}}> */}
-        {/* <Text>Liga ID: {item.liga_id}</Text>
-        <Text>Nome: {item.nome}</Text> */}
-        {
-          item.isExpanded && <LeagueTeams slug={item.slug}/>
-        }
-        
-      {/* </View> */}
-
-      {/* <FlatList
-        style={{height: hp(layoutHeight), overflow: 'hidden'}}
-        data={item.liga_id}
-        keyExtractor={({ liga_id }) => liga_id}
-        renderItem={({ item }) => <ItemInsideExpandable item={item} key={item.id}/>}  
-      /> */}
+      {
+        item.isExpanded && <LeagueTeams slug={item.slug}/>
+      }
     </View>
   )
 }

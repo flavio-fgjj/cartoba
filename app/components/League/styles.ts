@@ -99,4 +99,9 @@ export const styles = StyleSheet.create({
     fontSize: adjust(11),
     fontWeight: 'bold'
   },
+  shieldHighlight: {
+    width: wp(35), 
+    height: hp(40),
+    resizeMode: 'contain',
+  },
 });

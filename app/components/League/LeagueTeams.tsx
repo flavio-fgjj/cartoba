@@ -9,8 +9,8 @@ import { styles } from './styles';
 // model
 import { Atleta } from 'app/model/Atleta';
 import { MyTeam } from 'app/model/myTeam/MyTeam';
-import { Time } from 'app/model/Time';
 import { MyTeamPartial } from 'app/model/myTeam/MyTeamPartial';
+import { Time } from 'app/model/Time';
 
 // hooks
 import useGetData from '@services/hooks/useGetData';
@@ -32,33 +32,42 @@ const LeagueTeams = (props: Props) => {
   const { getLeagueTeams, getScoredAthletes, getMyTeam } = useGetData();
 
   const [teams, setTeams] = useState<Array<MyTeamPartial>>([]);
-  const [teamsByChamps, setTeamsByChamps] = useState<Array<MyTeamPartial>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [byChampionship, setByChampionship] = useState<boolean>(false);
+  const [highlights, setHighlights] = useState<number>(0);
+  const [lanterninha, setLanterninha] = useState<Time>(new Time());
+  const [maisRico, setMaisRico] = useState<Time>(new Time());
+  const [campeaoRodada, setCampeaoRodada] = useState<Time>(new Time());
 
   const getPointsByTeam = async (_teams: MyTeam, scoredAthletes: any) => {
     let points: number = 0;
 
-    for (const athlete of _teams.atletas) {
-      const a = scoredAthletes?.atletas[athlete.atleta_id]
-      if (a) {
-        let p = a.pontuacao ?? 0
-        points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p
-      } else {
-        const bench = _teams.reservas?.filter((r: Atleta) => r.posicao_id === athlete.posicao_id)[0];
-
-        if (bench) {
-          const b = scoredAthletes?.atletas[bench.atleta_id]
-          if (b) {
-            let pb = b.pontuacao ?? 0
-            points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb
+    if (scoredAthletes.length > 0) { // parciais (mercado fechado com jogos em andamento)
+      for (const athlete of _teams.atletas) {
+        const a = scoredAthletes?.atletas[athlete.atleta_id]
+        if (a) {
+          let p = a.pontuacao ?? 0
+          points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p
+        } else {
+          const bench = _teams.reservas?.filter((r: Atleta) => r.posicao_id === athlete.posicao_id)[0];
+  
+          if (bench) {
+            const b = scoredAthletes?.atletas[bench.atleta_id]
+            if (b) {
+              let pb = b.pontuacao ?? 0
+              points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb
+            }
           }
         }
       }
+      const n: MyTeamPartial = {..._teams, pontuacao: points};
+      n.pontos_campeonato = n.pontos_campeonato + points;
+      return n;
+    } else { // mercado aberto
+      const p: number = _teams.pontos;
+      const n: MyTeamPartial = {..._teams, pontuacao: p};
+      return n;
     }
-    const n: MyTeamPartial = {..._teams, pontuacao: points};
-    n.pontos_campeonato = n.pontos_campeonato + points;
-    return n;
   }
 
   const callGetData = async () => {
@@ -67,47 +76,27 @@ const LeagueTeams = (props: Props) => {
     
     if (!leagueTeamsResponse.error && !scoredAthletesResponse.error) {
 
+      if (leagueTeamsResponse.destaques.lanterninha) {
+        setHighlights(3);
+        setLanterninha(leagueTeamsResponse.destaques.lanterninha);
+        setCampeaoRodada(leagueTeamsResponse.destaques.rodada);
+        setMaisRico(leagueTeamsResponse.destaques.patrimonio);
+      }
+
       let teamsWithPoints: Array<MyTeamPartial> = [];
       for (const team of leagueTeamsResponse?.times) {
         const t = await getMyTeam(team.time_id.toString())
         teamsWithPoints.push(await getPointsByTeam(t, scoredAthletesResponse))
       }
 
-      // const byRodada: Array<MyTeamPartial> = teamsWithPoints.sort((a, b) => {
-      //   const pointA = a.pontuacao
-      //   const pointB = b.pontuacao
-      //   if (pointA > pointB) {
-      //     return -1;
-      //   }
-      //   if (pointA < pointB) {
-      //     return 1;
-      //   }
-
-      //   return 0;
-      // });
-
-      // const byChamps: Array<MyTeamPartial> = teamsWithPoints.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-      //   const pointA = a.pontos_campeonato
-      //   const pointB = b.pontos_campeonato
-      //   if (pointA > pointB) {
-      //     return -1;
-      //   }
-      //   if (pointA < pointB) {
-      //     return 1;
-      //   }
-
-      //   return 0;
-      // });
-
       setTeams(teamsWithPoints);
-      //setTeamsByChamps(byChamps);
       setLoading(false);
     }
   };
 
   useEffect(() => {
     callGetData();
-  }, [byChampionship]);
+  }, []);
 
   if (loading) {
     return <Loader />
@@ -135,7 +124,32 @@ const LeagueTeams = (props: Props) => {
 
   return (
     <View>
+      {
+        highlights > 0 &&
+        <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 15, alignSelf: 'center'}}>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.points}>LÍDER DA RODADA</Text>
+            <Image source={{uri: campeaoRodada.url_escudo_png}} style={styles.shieldHighlight}/>
+            <Text style={styles.titlePoints}>{campeaoRodada.nome}</Text>
+            <Text style={styles.titlePoints}>{campeaoRodada.nome_cartola}</Text>
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.points}>MAIS RICO</Text>
+            <Image source={{uri: maisRico.url_escudo_png}} style={styles.shieldHighlight}/>
+            <Text style={styles.titlePoints}>{maisRico.nome}</Text>
+            <Text style={styles.titlePoints}>{maisRico.nome_cartola}</Text>
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.points}>LANTERNINHA</Text>
+            <Image source={{uri: lanterninha.url_escudo_png}} style={styles.shieldHighlight}/>
+            <Text style={styles.titlePoints}>{lanterninha.nome}</Text>
+            <Text style={styles.titlePoints}>{lanterninha.nome_cartola}</Text>
+          </View>
+        </View>
+      }
+
       <View style={styles.separator} />
+
       <View style={{flexDirection: 'row', padding: 15, justifyContent: 'space-between', alignItems: 'center'}}>
         <View style={{flexDirection: 'row'}}>
           <Pressable style={{flexDirection: 'row'}} onPress={() => setByChampionship(!byChampionship)}>
@@ -154,44 +168,37 @@ const LeagueTeams = (props: Props) => {
         </Pressable>
       </View>
       <View style={styles.separator} />
-      {
-        <FlatList
-            data={
-              !byChampionship
-              ? teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-                const pointA = a.pontuacao
-                const pointB = b.pontuacao
-                if (pointA > pointB) {
-                  return -1;
-                }
-                if (pointA < pointB) {
-                  return 1;
-                }
-          
-                return 0;
-              })
-              : teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-                const pointA = a.pontos_campeonato
-                const pointB = b.pontos_campeonato
-                if (pointA > pointB) {
-                  return -1;
-                }
-                if (pointA < pointB) {
-                  return 1;
-                }
-          
-                return 0;
-              })
-            }
-            //keyExtractor={({ capitao_id }) => capitao_id}
-            renderItem={({ item }) => <Teams item={item} key={item.time.time_id} />}  
-          />
-      }
-      {/* <FlatList
-        data={byChampionship ? teamsByChamps : teams}
-        //keyExtractor={({ capitao_id }) => capitao_id}
+
+      <FlatList
+        data={
+          !byChampionship
+          ? teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
+              const pointA = a.pontuacao
+              const pointB = b.pontuacao
+              if (pointA > pointB) {
+                return -1;
+              }
+              if (pointA < pointB) {
+                return 1;
+              }
+
+              return 0;
+            })
+          : teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
+              const pointA = a.pontos_campeonato
+              const pointB = b.pontos_campeonato
+              if (pointA > pointB) {
+                return -1;
+              }
+              if (pointA < pointB) {
+                return 1;
+              }
+
+              return 0;
+            })
+        }
         renderItem={({ item }) => <Teams item={item} key={item.time.time_id} />}  
-      /> */}
+      />
     </View>
   )
 }

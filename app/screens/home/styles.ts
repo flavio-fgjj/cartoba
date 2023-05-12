@@ -68,8 +68,8 @@ export const styles = StyleSheet.create({
 		// iOS
 		shadowColor: '#000',
 		shadowOffset: {
-				width: wp(0),
-				height: hp(2),
+      width: wp(0),
+      height: hp(2),
 		},
 		shadowOpacity: 0.23,
 		shadowRadius: 2.62,
@@ -99,5 +99,11 @@ export const styles = StyleSheet.create({
     color: '#333',
     fontSize: adjust(44),
     fontWeight: 'bold', 
+  },
+  logo: {
+    width: wp(90), 
+    height: hp(150),
+    resizeMode: 'contain',
+    marginTop: 10
   }
 });

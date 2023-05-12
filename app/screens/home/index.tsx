@@ -137,7 +137,7 @@ export const Home = () => {
           <Text style={styles.boxTextBold}>{team.pontos_campeonato.toFixed(2)}</Text>
         </View>
       </View>
-      <Image source={logo} />
+      <Image source={logo} style={styles.logo}/>
     </View>
   );
 }
