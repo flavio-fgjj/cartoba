@@ -16,15 +16,6 @@ import { ConvertedLeague } from 'app/model/league/ConvertedLeague';
 // components
 import LeagueTeams from './LeagueTeams';
 
-const ItemInsideExpandable = (item: ConvertedLeague) => {
-  return (
-    <View key={item.generatedId} style={styles.content}>
-      <Text style={styles.text}>{item.generatedId}. {item.nome}</Text>
-      <View style={styles.separator} />
-    </View>
-  )
-}
-
 const ExpandableComponent = ({item, onClickFunction}: any) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
 
@@ -34,9 +25,12 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
 
   const c: boolean = false;
 
+  if (item.isExpanded) {
+
+  }
   return (
-    <View style={{ padding: 5 }}>
-      <TouchableOpacity style={[styles.item, {borderRadius: 8, justifyContent: 'space-between' }]} onPress={onClickFunction}>
+    <View style={{ padding: 5, backgroundColor: '#fff' }}>
+      <TouchableOpacity style={[styles.item, {borderRadius: 8, justifyContent: 'space-between', backgroundColor: '#fff' }]} onPress={onClickFunction}>
         <View style={{flexDirection: 'row'}}>
           <Image source={{uri: item.url_flamula_png}} style={styles.banderole}/>
           <View>
@@ -51,7 +45,8 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
         </View>
       </TouchableOpacity>
       {
-        item.isExpanded && <LeagueTeams slug={item.slug} leagueName={item.name}/>
+        
+        item.isExpanded && <LeagueTeams slug={item.slug} leagueName={item.nome} rowIndex={0}/>
       }
     </View>
   )

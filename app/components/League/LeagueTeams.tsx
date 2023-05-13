@@ -28,13 +28,15 @@ import { wp, hp } from 'app/utils/adjustments';
 
 interface Props {
 	slug: string, 
-  leagueName: string
+  leagueName: string,
+  rowIndex: number
 }
 
 const LeagueTeams = (props: Props) => {
   const { getLeagueTeams, getScoredAthletes, getMyTeam } = useGetData();
 
   const [teams, setTeams] = useState<Array<MyTeamPartial>>([]);
+  const [teamsByChamps, setTeamsByChamps] = useState<Array<MyTeamPartial>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [byChampionship, setByChampionship] = useState<boolean>(false);
   const [highlights, setHighlights] = useState<number>(0);
@@ -42,8 +44,9 @@ const LeagueTeams = (props: Props) => {
   const [maisRico, setMaisRico] = useState<Time>(new Time());
   const [campeaoRodada, setCampeaoRodada] = useState<Time>(new Time());
 
-  const [shareAsText, setShareAsText] = useState<boolean>(true);
+  // const [shareAsText, setShareAsText] = useState<boolean>(true);
   const league: string = props.leagueName;
+  const [index, setIndex] = useState<number>(props.rowIndex);
 
   // share
   const viewRef = useRef<FlatList>(null);
@@ -148,6 +151,7 @@ const LeagueTeams = (props: Props) => {
       }
 
       setTeams(teamsWithPoints);
+
       setLoading(false);
     }
   };
@@ -162,23 +166,22 @@ const LeagueTeams = (props: Props) => {
 
   const Teams = ({item}: any) => {
     return (
-      <View key={item.time.time_id} style={styles.team}>
-        <Text>{item.posicao}° </Text>
-        <Image source={{uri: item.time.url_escudo_png}} style={styles.shield}/>
-        <View style={[styles.teamNameView, {width: wp(180)}]}>
-          {
-            item.time.nome_cartola.indexOf(' ') != -1
-            ? <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola.substring(0, item.time.nome_cartola.indexOf(' ')).trim()})</Text>
-            : <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola})</Text>
-          }
-          {/* <Text style={styles.teamOwnerText}>{item.time.nome_cartola}</Text> */}
+      <View key={item.time.time_id} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', paddingHorizontal: 15, backgroundColor: '#fff' }}>
+        <View style={{ flex: 6, alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'center', paddingVertical: 2 }}>
+          <Text style={{width: wp(20)}}>{item.posicao}° </Text>
+          <Image source={{uri: item.time.url_escudo_png}} style={[styles.shield, {marginLeft: 10}]}/>
+          <View style={[styles.teamNameView, {width: wp(180)}]}>
+            {
+              item.time.nome_cartola.indexOf(' ') != -1
+              ? <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola.substring(0, item.time.nome_cartola.indexOf(' ')).trim()})</Text>
+              : <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola})</Text>
+            }
+          </View>
         </View>
-        <View style={[styles.teamNameView, {alignItems: 'center'}]}>
-          {/* <Text style={styles.titlePoints}>RODADA</Text> */}
+        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
           <Text style={styles.points}>{item.pontuacao.toFixed(2)}</Text>
         </View>
-        <View style={[styles.teamNameView, {alignContent: 'flex-end'}]}>
-          {/* <Text style={styles.titlePoints}>CAMPEONATO</Text> */}
+        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
           <Text style={styles.points}>{(item.pontos_campeonato).toFixed(2)}</Text>
         </View>
       </View>
@@ -187,7 +190,7 @@ const LeagueTeams = (props: Props) => {
 
   const ListHeader = () => {
     return (
-      <View>
+      <View style={{backgroundColor: '#fff'}}>
         {
           highlights > 0 &&
           <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 15, alignSelf: 'center'}}>
@@ -212,23 +215,26 @@ const LeagueTeams = (props: Props) => {
           </View>
         }
         <View style={styles.separator} />
-        <View style={{paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'center', marginTop: 5}}>
-          <Text style={{width: wp(215)}}>Posição/Time</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 10}}>
+        <Text style={{textAlign: 'center', paddingTop: 8, fontWeight: '900'}}>{league}</Text>
+        <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', paddingHorizontal: 15, paddingVertical: 8 }}>
+          <Text style={{ flex: 6, alignSelf: 'stretch' }}>Posição/Time</Text>
+          <Text style={{ flex: 1, alignSelf: 'stretch' }}>Rod.</Text>
+          <Text style={{ flex: 1, alignSelf: 'stretch' }}>Camp.</Text>
+          {/* <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
             <View style={[styles.teamNameView, {alignItems: 'center'}]}>
               <Text style={{paddingRight: 10}}>Rod.</Text>
             </View>
             <View style={[styles.teamNameView, {alignItems: 'center'}]}>
               <Text>Camp.</Text>
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
     );
   };
 
   return (
-    <View style={{width: '100%'}}>
+    <View style={{flex: 1, alignSelf: 'stretch'}}>
       <View style={styles.separator} />
         <View style={{flexDirection: 'row', padding: 15, justifyContent: 'space-between', alignItems: 'center'}}>
           <View style={{flexDirection: 'row'}}>
@@ -266,20 +272,22 @@ const LeagueTeams = (props: Props) => {
               return 0;
             })
           : teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-              const pointA = a.pontos_campeonato
-              const pointB = b.pontos_campeonato
-              if (pointA > pointB) {
-                return -1;
-              }
-              if (pointA < pointB) {
-                return 1;
-              }
+            const pointA = a.pontos_campeonato
+            const pointB = b.pontos_campeonato
+            if (pointA > pointB) {
+              return -1;
+            }
+            if (pointA < pointB) {
+              return 1;
+            }
 
-              return 0;
-            })
+            return 0;
+          })
         }
-        renderItem={({ item }) => <Teams item={item} key={item.time.time_id} />}  
+        renderItem={({ item, index }) => <Teams item={item} key={index} />}  
+        keyExtractor={(item,index) => index.toString()}
         ref={viewRef}
+
       />
     </View>
   )
