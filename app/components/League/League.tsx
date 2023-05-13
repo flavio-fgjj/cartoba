@@ -8,7 +8,7 @@ import {
 import { styles } from './styles';
 
 // utils
-import { hp } from 'app/utils/adjustments';
+import { adjust, hp } from 'app/utils/adjustments';
 
 // model
 import { ConvertedLeague } from 'app/model/league/ConvertedLeague';
@@ -16,7 +16,13 @@ import { ConvertedLeague } from 'app/model/league/ConvertedLeague';
 // components
 import LeagueTeams from './LeagueTeams';
 
+// astore
+import { useUserStore } from '@store/user';
+
 const ExpandableComponent = ({item, onClickFunction}: any) => {
+  const increaseUser = useUserStore(state => state);
+  const idTeam = increaseUser.user.idTeam;
+
   const [layoutHeight, setLayoutHeight] = useState(0);
 
   useEffect(() => {
@@ -25,9 +31,6 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
 
   const c: boolean = false;
 
-  if (item.isExpanded) {
-
-  }
   return (
     <View style={{ padding: 5, backgroundColor: '#fff' }}>
       <TouchableOpacity style={[styles.item, {borderRadius: 8, justifyContent: 'space-between', backgroundColor: '#fff' }]} onPress={onClickFunction}>
@@ -35,17 +38,22 @@ const ExpandableComponent = ({item, onClickFunction}: any) => {
           <Image source={{uri: item.url_flamula_png}} style={styles.banderole}/>
           <View>
             <Text style={styles.itemText}>{item.nome}</Text>
-            <Text style={{color: '#C8C8C8', fontSize: 12, paddingLeft: 10}}>
+            <Text style={{color: '#C8C8C8', fontSize: adjust(12), paddingLeft: 10}}>
               {item.tipo === "F" ? 'Fechada' : 'Moderada'} • {(item.total_times_liga + 1).toString()} Cartoleiros
             </Text>
           </View>
         </View>
-        <View style={{justifyContent: 'center'}}>
-          <Text>1°</Text>
-        </View>
+        {
+          (item.time_dono_id != null && idTeam == item.time_dono_id.toString()) &&
+          <View style={{justifyContent: 'center'}}>
+            <View style={styles.isPresident}>
+              <Text style={{color: '#fff', fontWeight: 'bold'}}>P</Text>
+            </View>
+          </View>
+        }
+        
       </TouchableOpacity>
       {
-        
         item.isExpanded && <LeagueTeams slug={item.slug} leagueName={item.nome} rowIndex={0}/>
       }
     </View>
@@ -60,7 +68,7 @@ interface Props {
 const Leagues = (props: Props) => {
   const [multiSelect, setMultiSelect] = useState<boolean>(false);
   
-  const typeLeague: string = props.leagueType;
+  // const typeLeague: string = props.leagueType;
   const leagues: Array<ConvertedLeague> = props.leagues;
   
   const [listDataSource, setlistDataSource] = useState<Array<ConvertedLeague>>(leagues);
@@ -89,23 +97,6 @@ const Leagues = (props: Props) => {
 
   return (
     <View style={styles.container}> 
-      {/* <View style={styles.header}> */}
-        {/* <Text style={styles.titleText}>
-          {typeLeague}
-        </Text> */}
-        {/* <TouchableOpacity
-          onPress={() => setMultiSelect(!multiSelect)}>
-          <Text style={styles.headerButton}>
-            {
-              multiSelect
-              ? 'Enable single \n expand'
-              : 'Enable multi \n expand'
-            }
-          </Text>
-
-        </TouchableOpacity> */}
-      {/* </View> */}
-
       <FlatList
         data={listDataSource}
         keyExtractor={({ slug }) => slug}

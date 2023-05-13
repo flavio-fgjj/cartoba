@@ -164,11 +164,11 @@ const LeagueTeams = (props: Props) => {
     return <Loader />
   }
 
-  const Teams = ({item}: any) => {
+  const Teams = ({item, ranking}: any) => {
     return (
       <View key={item.time.time_id} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', paddingHorizontal: 15, backgroundColor: '#fff' }}>
         <View style={{ flex: 6, alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'center', paddingVertical: 2 }}>
-          <Text style={{width: wp(20)}}>{item.posicao}° </Text>
+          <Text style={{width: wp(20)}}>{((ranking + 1).toString())}° </Text>
           <Image source={{uri: item.time.url_escudo_png}} style={[styles.shield, {marginLeft: 10}]}/>
           <View style={[styles.teamNameView, {width: wp(180)}]}>
             {
@@ -179,10 +179,10 @@ const LeagueTeams = (props: Props) => {
           </View>
         </View>
         <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
-          <Text style={styles.points}>{item.pontuacao.toFixed(2)}</Text>
+          <Text style={styles.points}>{item.pontuacao != null ? item.pontuacao.toFixed(2): 0}</Text>
         </View>
         <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
-          <Text style={styles.points}>{(item.pontos_campeonato).toFixed(2)}</Text>
+          <Text style={styles.points}>{item.pontos_campeonato != null ? item.pontos_campeonato.toFixed(2) : 0}</Text>
         </View>
       </View>
     )
@@ -284,7 +284,7 @@ const LeagueTeams = (props: Props) => {
             return 0;
           })
         }
-        renderItem={({ item, index }) => <Teams item={item} key={index} />}  
+        renderItem={({ item, index }) => <Teams item={item} key={index} ranking={index}/>}  
         keyExtractor={(item,index) => index.toString()}
         ref={viewRef}
 

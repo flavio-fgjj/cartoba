@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-// styles
-import { styles } from './styles';
-
 // components
 import Loader from '@components/Loader';
 

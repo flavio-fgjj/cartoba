@@ -17,6 +17,7 @@ import { styles } from './styles';
 // util
 import { hp } from 'app/utils/adjustments';
 import MyLeagues from '@screens/myLeagues';
+import { Text } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +42,10 @@ export default function TabNavigator() {
         component={Home}
         options={{
           headerShown: true,
+          tabBarLabelPosition: 'beside-icon',
+          // tabBarLabel: ({ focused }) => {
+          //   return <Text style={{color: 'red'}}>{focused ? "Home" : ""}</Text>
+          // },
           tabBarIcon: ({ color, size, focused }) => {
               // if(focused){
               //   return <Icon name={'home'} size={size} color={color} />
@@ -48,9 +53,11 @@ export default function TabNavigator() {
 
               return <Icon name="home-outline" size={hp(size)} color={color} />
           }, 
+          
           headerTitle: (props) => <HeaderHome />
 
         }}
+
       />
       <Tab.Screen
         name="Meu time"

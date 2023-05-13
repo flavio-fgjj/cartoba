@@ -1,4 +1,8 @@
 import { StyleSheet } from "react-native";
+import { Dimensions } from 'react-native';
+
+// constants
+const windowHeight = Dimensions.get('window').height;
 
 import { adjust, hp, wp } from "app/utils/adjustments";
 
@@ -116,4 +120,11 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     padding: 7,
   },
+  isPresident: {
+    backgroundColor: '#ff7400', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: windowHeight <= 480 ? adjust(30 / 2) : adjust(25 / 2),
+    width: wp(20), 
+  }
 });

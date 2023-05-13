@@ -10,7 +10,7 @@ import { styles } from './styles';
 // utils
 import { hp } from 'app/utils/adjustments';
 
-//assets
+// assets
 import logo from '../../assets/logo.png'
 import { colors } from 'app/colors';
 
