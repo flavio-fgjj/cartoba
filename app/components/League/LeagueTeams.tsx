@@ -26,6 +26,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // utils
 import { wp, hp } from 'app/utils/adjustments';
 
+// store
+import { useStatusStore } from '@store/statusMarket';
+
+// assets
+import logo from '../../assets/logo.png';
+
 interface Props {
 	slug: string, 
   leagueName: string,
@@ -33,6 +39,9 @@ interface Props {
 }
 
 const LeagueTeams = (props: Props) => {
+  const increaseStatus = useStatusStore(state => state);
+  const statusMarket = increaseStatus.statusMarket == 1;
+
   const { getLeagueTeams, getScoredAthletes, getMyTeam } = useGetData();
 
   const [teams, setTeams] = useState<Array<MyTeamPartial>>([]);
@@ -100,24 +109,25 @@ const LeagueTeams = (props: Props) => {
 
   const getPointsByTeam = async (_teams: MyTeam, scoredAthletes: any, ranking: number) => {
     let points: number = 0;
-
-    if (scoredAthletes.length > 0) { // parciais (mercado fechado com jogos em andamento)
+    if (scoredAthletes?.atletas) { // parciais (mercado fechado com jogos em andamento)
       for (const athlete of _teams.atletas) {
         const a = scoredAthletes?.atletas[athlete.atleta_id]
         if (a) {
-          let p = a.pontuacao ?? 0
-          points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p
-        } else {
-          const bench = _teams.reservas?.filter((r: Atleta) => r.posicao_id === athlete.posicao_id)[0];
+          if (a.entrou_em_campo) {
+            let p = a.pontuacao ?? 0
+            points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p
+          } else {
+            const bench = _teams.reservas?.filter((r: Atleta) => r.posicao_id === athlete.posicao_id)[0];
   
-          if (bench) {
-            const b = scoredAthletes?.atletas[bench.atleta_id]
-            if (b) {
-              let pb = b.pontuacao ?? 0
-              points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb
+            if (bench) {
+              const b = scoredAthletes?.atletas[bench.atleta_id]
+              if (b) {
+                let pb = b.pontuacao ?? 0
+                points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb
+              }
             }
           }
-        }
+        } 
       }
       const n: MyTeamPartial = {..._teams, pontuacao: points, posicao: ranking};
       n.pontos_campeonato = n.pontos_campeonato + points;
@@ -134,8 +144,7 @@ const LeagueTeams = (props: Props) => {
     const scoredAthletesResponse = await getScoredAthletes();
     
     if (!leagueTeamsResponse.error && !scoredAthletesResponse.error) {
-
-      if (leagueTeamsResponse.destaques.lanterninha) {
+      if (statusMarket) {
         setHighlights(3);
         setLanterninha(leagueTeamsResponse.destaques.lanterninha);
         setCampeaoRodada(leagueTeamsResponse.destaques.rodada);
@@ -169,7 +178,7 @@ const LeagueTeams = (props: Props) => {
       <View key={item.time.time_id} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', paddingHorizontal: 15, backgroundColor: '#fff' }}>
         <View style={{ flex: 6, alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'center', paddingVertical: 2 }}>
           <Text style={{width: wp(20)}}>{((ranking + 1).toString())}° </Text>
-          <Image source={{uri: item.time.url_escudo_png}} style={[styles.shield, {marginLeft: 10}]}/>
+          <Image source={{uri: item.time.url_escudo_png}} style={[styles.shield, {marginLeft: 2}]}/>
           <View style={[styles.teamNameView, {width: wp(180)}]}>
             {
               item.time.nome_cartola.indexOf(' ') != -1
@@ -188,6 +197,12 @@ const LeagueTeams = (props: Props) => {
     )
   }
 
+  const Footer = () => {
+    return (<View style={{backgroundColor: '#fff', paddingVertical: 15, alignItems: 'center', flex: 1 }}>
+      <Text>CartóBa</Text>
+      <Image source={logo} style={styles.logo}/>
+    </View>)
+  }
   const ListHeader = () => {
     return (
       <View style={{backgroundColor: '#fff'}}>
@@ -220,14 +235,6 @@ const LeagueTeams = (props: Props) => {
           <Text style={{ flex: 6, alignSelf: 'stretch' }}>Posição/Time</Text>
           <Text style={{ flex: 1, alignSelf: 'stretch' }}>Rod.</Text>
           <Text style={{ flex: 1, alignSelf: 'stretch' }}>Camp.</Text>
-          {/* <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-            <View style={[styles.teamNameView, {alignItems: 'center'}]}>
-              <Text style={{paddingRight: 10}}>Rod.</Text>
-            </View>
-            <View style={[styles.teamNameView, {alignItems: 'center'}]}>
-              <Text>Camp.</Text>
-            </View>
-          </View> */}
         </View>
       </View>
     );
@@ -257,6 +264,7 @@ const LeagueTeams = (props: Props) => {
 
       <FlatList
         ListHeaderComponent={ListHeader}
+        ListFooterComponent={Footer}
         data={
           !byChampionship
           ? teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {

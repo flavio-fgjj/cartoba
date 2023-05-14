@@ -82,11 +82,37 @@ export default function useGetData() {
 
   const getScoredAthletes = async () => {
     try {
-      const response = await api.get(`/atletas/pontuados`, { headers })
+      const response = await api.get(`/atletas/pontuados`)
 
       if (response.status.toString() === "204") {
         return []
       }
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
+  const getAthletes = async () => {
+    try {
+      const response = await api.get(`/atletas/mercado`, { headers })
+
+      if (response.status.toString() === "204") {
+        return []
+      }
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
+  const getGames = async (rodada: string) => {
+    try {
+      const response = await api.get(`/partidas/${rodada}`)
 
       return response.data
     } catch (error) {
@@ -102,6 +128,8 @@ export default function useGetData() {
     getSchemas,
     getLeagues,
     getLeagueTeams,
-    getScoredAthletes
+    getScoredAthletes,
+    getAthletes,
+    getGames
   }
 }

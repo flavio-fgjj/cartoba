@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
     paddingRight: 16,
   },
   teamNameView: {
-    paddingLeft: 16
+    paddingLeft: 5
   }, 
   teamNameText: {
     fontSize: adjust(12),
@@ -126,5 +126,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: windowHeight <= 480 ? adjust(30 / 2) : adjust(25 / 2),
     width: wp(20), 
+  },
+  logo: {
+    width: wp(40), 
+    height: hp(50),
+    resizeMode: 'contain',
   }
 });

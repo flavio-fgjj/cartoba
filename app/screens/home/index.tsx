@@ -105,11 +105,20 @@ export const Home = () => {
         : 
         <View style={styles.market}>
           <Text>Mercado fechado</Text>
-          <Switch
+          {/* <Switch
             trackColor={{false: '#df2c14', true: '#7ce604'}}
             thumbColor={isEnabled ? '#7ce604' : '#df2c14'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
+            value={isEnabled}
+            disabled
+          /> */}
+          <Switch
+            trackColor={{false: '#d50000', true: '#7ce604'}}
+            //thumbColor={statusMarket ? '#568203' : '#df2c14'}
+            thumbColor={'rgba(0, 0, 0, 0.7)'}
+            // ios_backgroundColor="#3e3e3e"
+            //onValueChange={toggleSwitch}
             value={isEnabled}
             disabled
           />
