@@ -22,6 +22,6 @@ export default function Photo(props: Props) {
 	return (
     props.hasBench
 		? <Image source={{uri: props.player?.foto.toString().replace("FORMATO", "220x220")}} style={styles.player}/>
-    : <Icon name="plus" size={hp(35)} />
+    : props.player && <Icon name="plus" size={hp(35)} />
 	);
 }

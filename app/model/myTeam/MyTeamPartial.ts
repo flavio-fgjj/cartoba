@@ -15,5 +15,5 @@ export class MyTeamPartial {
 	valor_time: number = 0;
 	ranking: Ranking = new Ranking();
   pontuacao: number = 0;
-	posicao: number = 0;
+	total_atletas_pontuados: number = 0;
 }

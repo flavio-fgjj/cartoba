@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, FlatList, Pressable, Image, Alert, PixelRatio, ScrollView
+  View, Text, FlatList, Pressable, Image, TouchableOpacity, Modal
 } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import Share from 'react-native-share';
@@ -31,6 +31,8 @@ import { useStatusStore } from '@store/statusMarket';
 
 // assets
 import logo from '../../assets/logo.png';
+import { colors } from 'app/colors';
+import TeamFromLeague from './Team';
 
 interface Props {
 	slug: string, 
@@ -39,6 +41,11 @@ interface Props {
 }
 
 const LeagueTeams = (props: Props) => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [idTeamModal, setIdTeamModal] = useState<number>(0);
+  const [nameTeamModal, setNameTeamModal] = useState<string>('');
+  const [nameTeamOwnerModal, setNameTeamOwnerModal] = useState<string>('');
+
   const increaseStatus = useStatusStore(state => state);
   const statusMarket = increaseStatus.statusMarket == 1;
 
@@ -67,74 +74,42 @@ const LeagueTeams = (props: Props) => {
         quality: 1.0
       });
       await Share.open({ title: props.leagueName, url: uri });
-
-      // let msg: string = `${league} | ${!byChampionship ? 'por Rodada' : 'Por campeonato'}\n`;
-
-      // !byChampionship
-      // ? teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-      //     const pointA = a.pontuacao
-      //     const pointB = b.pontuacao
-      //     if (pointA > pointB) {
-      //       return -1;
-      //     }
-      //     if (pointA < pointB) {
-      //       return 1;
-      //     }
-
-      //     return 0;
-      //   }).forEach(x => {
-      //     msg += `${x.posicao}° ${x.time.nome} (${x.time.nome_cartola.substring(0, x.time.nome_cartola.indexOf(' ')).trim()}) - R: ${x.pontuacao.toFixed(2)} | C: ${x.pontos_campeonato.toFixed(2)}\n`
-      //   })
-      // : teams.sort((a: MyTeamPartial, b: MyTeamPartial) => {
-      //     const pointA = a.pontos_campeonato
-      //     const pointB = b.pontos_campeonato
-      //     if (pointA > pointB) {
-      //       return -1;
-      //     }
-      //     if (pointA < pointB) {
-      //       return 1;
-      //     }
-
-      //     return 0;
-      //   }).forEach(x => {
-      //     msg += `${x.posicao}° ${x.time.nome} (${x.time.nome_cartola}) - R: ${x.pontuacao} | C: ${x.pontos_campeonato}\n`
-      //   })
-
-      
-      // await Share.open({ title: props.leagueName, message: msg });
     } catch (err) {
       console.error(err);
     }
   }
 
-  const getPointsByTeam = async (_teams: MyTeam, scoredAthletes: any, ranking: number) => {
+  const getPointsByTeam = async (_teams: MyTeam, scoredAthletes: any) => {
     let points: number = 0;
+    let totalPlayers: number = 0;
     if (scoredAthletes?.atletas) { // parciais (mercado fechado com jogos em andamento)
       for (const athlete of _teams.atletas) {
-        const a = scoredAthletes?.atletas[athlete.atleta_id]
+        const a = scoredAthletes?.atletas[athlete.atleta_id];
         if (a) {
           if (a.entrou_em_campo) {
-            let p = a.pontuacao ?? 0
-            points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p
+            let p = a.pontuacao ?? 0;
+            points += _teams.capitao_id === athlete.atleta_id ? (p * 1.5) : p;
+            totalPlayers++;
           } else {
             const bench = _teams.reservas?.filter((r: Atleta) => r.posicao_id === athlete.posicao_id)[0];
   
             if (bench) {
-              const b = scoredAthletes?.atletas[bench.atleta_id]
+              const b = scoredAthletes?.atletas[bench.atleta_id];
               if (b) {
-                let pb = b.pontuacao ?? 0
-                points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb
+                let pb = b.pontuacao ?? 0;
+                points += _teams.capitao_id === athlete.atleta_id ? (pb * 1.5) : pb;
+                totalPlayers++;
               }
             }
           }
         } 
       }
-      const n: MyTeamPartial = {..._teams, pontuacao: points, posicao: ranking};
+      const n: MyTeamPartial = {..._teams, pontuacao: points, total_atletas_pontuados: totalPlayers};
       n.pontos_campeonato = n.pontos_campeonato + points;
       return n;
     } else { // mercado aberto
       const p: number = _teams.pontos;
-      const n: MyTeamPartial = {..._teams, pontuacao: p, posicao: ranking};
+      const n: MyTeamPartial = {..._teams, pontuacao: p, total_atletas_pontuados: totalPlayers};
       return n;
     }
   }
@@ -156,7 +131,7 @@ const LeagueTeams = (props: Props) => {
       for (const team of leagueTeamsResponse?.times) {
         i++;
         const t = await getMyTeam(team.time_id.toString())
-        teamsWithPoints.push(await getPointsByTeam(t, scoredAthletesResponse, i))
+        teamsWithPoints.push(await getPointsByTeam(t, scoredAthletesResponse))
       }
 
       setTeams(teamsWithPoints);
@@ -173,27 +148,40 @@ const LeagueTeams = (props: Props) => {
     return <Loader />
   }
 
+  const showModal = (id: number, name: string, owner: string) => {
+    setIdTeamModal(id);
+    setNameTeamModal(name);
+    setNameTeamOwnerModal(owner);
+    setModalVisible(true);
+  }
+
   const Teams = ({item, ranking}: any) => {
     return (
-      <View key={item.time.time_id} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', paddingHorizontal: 15, backgroundColor: '#fff' }}>
-        <View style={{ flex: 6, alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'center', paddingVertical: 2 }}>
+      <TouchableOpacity onPress={() => showModal(item.time.time_id, item.time.nome, item.time.nome_cartola)} key={item.time.time_id} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 15, paddingVertical: 5, backgroundColor: '#fff' }}>
+        <View style={{ flex: 6, alignSelf: 'stretch', flexDirection: 'row', alignContent: 'center', alignItems: 'center' }}>
           <Text style={{width: wp(20)}}>{((ranking + 1).toString())}° </Text>
           <Image source={{uri: item.time.url_escudo_png}} style={[styles.shield, {marginLeft: 2}]}/>
-          <View style={[styles.teamNameView, {width: wp(180)}]}>
+          <View style={[styles.teamNameView, {width: wp(180), justifyContent: 'center'}]}>
             {
               item.time.nome_cartola.indexOf(' ') != -1
-              ? <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola.substring(0, item.time.nome_cartola.indexOf(' ')).trim()})</Text>
-              : <Text style={styles.teamNameText}>{item.time.nome} ({item.time.nome_cartola})</Text>
+              ? <View style={{justifyContent: 'center'}}>
+                  <Text style={styles.teamNameText}>{item.time.nome}</Text>
+                  <Text>{item.time.nome_cartola.substring(0, item.time.nome_cartola.indexOf(' ')).trim()}</Text>
+                </View>
+              : <View>
+                  <Text style={styles.teamNameText}>{item.time.nome}</Text>
+                  <Text>{item.time.nome_cartola}</Text>
+                </View>
             }
           </View>
         </View>
-        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
+        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1, justifyContent: 'center'}]}>
           <Text style={styles.points}>{item.pontuacao != null ? item.pontuacao.toFixed(2): 0}</Text>
         </View>
-        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1}]}>
+        <View style={[styles.teamNameView, {alignSelf: 'stretch', flex: 1, justifyContent: 'center'}]}>
           <Text style={styles.points}>{item.pontos_campeonato != null ? item.pontos_campeonato.toFixed(2) : 0}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -208,7 +196,7 @@ const LeagueTeams = (props: Props) => {
       <View style={{backgroundColor: '#fff'}}>
         {
           highlights > 0 &&
-          <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 15, alignSelf: 'center'}}>
+          <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 5, paddingVertical: 15, alignSelf: 'center'}}>
             <View style={{alignItems: 'center'}}>
               <Text style={styles.points}>LÍDER DA RODADA</Text>
               <Image source={{uri: campeaoRodada.url_escudo_png}} style={styles.shieldHighlight}/>
@@ -261,6 +249,39 @@ const LeagueTeams = (props: Props) => {
           </Pressable>
         </View>
       <View style={styles.separator} />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}> 
+            <Text style={{alignSelf: 'center', fontWeight: '900', fontSize: 20, paddingTop: 15}}>{nameTeamModal}</Text>
+            <Text style={{alignSelf: 'center', fontWeight: 'normal', fontSize: 15}}>{nameTeamOwnerModal}</Text>
+            
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1, marginBottom: 10}}>
+              <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
+                <Text>Posição/Jogador</Text>
+              </View>
+              {/* <View style={{paddingLeft: 10, flex: 2, alignSelf: 'stretch', flexDirection: 'row', alignContent: 'flex-end', alignItems: 'center'}}> */}
+              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <Text>Preço</Text>
+              </View>
+              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={{textAlign: 'right'}}>Pontos</Text>
+              </View>
+            </View>
+
+            <TeamFromLeague idTeam={idTeamModal}/>
+            <Pressable onPress={() => setModalVisible(!modalVisible)} style={{alignSelf: 'center'}}>
+              <Icon name='close-circle-outline' size={hp(50)} color={colors.primary}></Icon>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
       <FlatList
         ListHeaderComponent={ListHeader}

@@ -4,7 +4,11 @@ import { Dimensions } from 'react-native';
 // constants
 const windowHeight = Dimensions.get('window').height;
 
+// utils
 import { adjust, hp, wp } from "app/utils/adjustments";
+
+// colors
+import { colors } from "app/colors";
 
 export const styles = StyleSheet.create({
 	container: {
@@ -131,5 +135,41 @@ export const styles = StyleSheet.create({
     width: wp(40), 
     height: hp(50),
     resizeMode: 'contain',
-  }
+  },
+  centeredView: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		//marginTop: 22,
+    paddingVertical: 15
+	},
+	modalView: {
+		flex: 1, 
+    //alignSelf: 'stretch', 
+    width: Dimensions.get('window').width - 10,
+    height: Dimensions.get('window').height,
+    //width: '90%',
+    // flexDirection: 'row',
+		backgroundColor: '#fff',
+		borderRadius: 20,
+    //paddingVertical: 15, 
+    //margin: 20,
+    //paddingBottom: 20,
+    paddingHorizontal: 10,
+		//alignItems: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: wp(0),
+			height: hp(2),
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	modalText: {
+		fontSize: adjust(20),
+		color: colors.primary,
+		marginBottom: 15,
+		textAlign: 'center',
+	},
 });

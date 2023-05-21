@@ -121,6 +121,17 @@ export default function useGetData() {
     }
   }
 
+  const getRodadas = async () => {
+    try {
+      const response = await api.get(`/rodadas`)
+
+      return response.data
+    } catch (error) {
+      console.log({ error })
+      return { error }
+    }
+  }
+
   return {
     getTeam,
     getStatusMarket,
@@ -130,6 +141,7 @@ export default function useGetData() {
     getLeagueTeams,
     getScoredAthletes,
     getAthletes,
-    getGames
+    getGames,
+    getRodadas
   }
 }

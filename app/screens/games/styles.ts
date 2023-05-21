@@ -1,14 +1,12 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '../../colors';
+import { adjust, hp, wp } from 'app/utils/adjustments';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 32,
   },
   title: {
     fontWeight: 'bold',
@@ -20,4 +18,11 @@ export const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: 'bold',
   },
+  shield: {
+		borderRadius: adjust(40 / 2),
+		width: wp(28.89), 
+		height: hp(40),
+		resizeMode: 'contain',
+		backgroundColor: '#fff'
+	}
 });
