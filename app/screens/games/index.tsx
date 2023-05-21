@@ -65,24 +65,26 @@ export default function Games() {
 		const escudoMandante = clubes[item.clube_casa_id.toString()].escudos;
 		const escudoVisitante = clubes[item.clube_visitante_id.toString()].escudos;
 
-		console.log(item.transmissao)
-
 		return (
 			<View style={{alignItems: 'center', paddingBottom: 20}}>
 				<View style={{flexDirection: 'row', alignItems: 'center'}}>
+					<Text style={{paddingRight:10}}>{item.clube_casa_posicao.toString()}°</Text>
+					<Text style={{paddingRight:10}}>{clubes[item.clube_casa_id.toString()].abreviacao}</Text>
 					<Image source={{uri: Object.values(escudoMandante)[2].toString()}} style={styles.shield}/>
 					{
 						item.placar_oficial_mandante != null
 						? <Text style={{paddingHorizontal: 10}}>{item.placar_oficial_mandante.toString()} x {item.placar_oficial_visitante.toString()}</Text>
-						: <Text style={{paddingHorizontal: 10}}>x</Text>
+						: <Text style={{paddingHorizontal: 10}}>-  x  -</Text>
 					}
 					<Image source={{uri: Object.values(escudoVisitante)[2].toString()}} style={styles.shield}/>
+					<Text style={{paddingLeft:10}}>{clubes[item.clube_visitante_id.toString()].abreviacao}</Text>
+					<Text style={{paddingLeft:10}}>{item.clube_visitante_posicao.toString()}°</Text>
 				</View>
-				<Text>{moment(item.partida_data).locale('pt-br').format('L').toString()}</Text>
+				<Text style={{paddingTop: 5}}>{moment(item.partida_data).locale('pt-br').format('L').toString()}</Text>
 				{
 					item.transmissao.label == ""
 					? <Text>{item.local}</Text>
-					: <TouchableOpacity onPress={() => {Linking.openURL(item.transmissao.url)}}><Text>{item.transmissao.label}</Text></TouchableOpacity>
+					: <TouchableOpacity onPress={() => {Linking.openURL(item.transmissao.url)}}><Text style={styles.underLineText}>{item.transmissao.label}</Text></TouchableOpacity>
 				}
 			</View>
 		)
@@ -115,15 +117,13 @@ export default function Games() {
 					: <Icon name='chevron-right-circle-outline' size={hp(25)} color={'#C3C3C3'}></Icon>
 				}
 			</View>
-        
 
 			<FlatList 
 				data={partidas}
 				keyExtractor={({ partida_id }) => partida_id.toString()}
 				renderItem={({ item }) => <GameComponent item={item} />}  
-					style={{marginTop: 20}}
+					style={{width: '100%', marginTop: 20}}
 			/>
-
 
 		</View>
 	);

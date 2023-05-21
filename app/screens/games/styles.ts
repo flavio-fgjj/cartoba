@@ -24,5 +24,12 @@ export const styles = StyleSheet.create({
 		height: hp(40),
 		resizeMode: 'contain',
 		backgroundColor: '#fff'
-	}
+	},
+  underLineText: {
+    fontSize: 12,
+    textDecorationLine: 'underline',
+    color: '#1565c0',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });

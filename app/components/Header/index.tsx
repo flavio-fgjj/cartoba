@@ -22,7 +22,6 @@ export default function Header() {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.viewLeft}>
-        {/* <Image source={logo} style={styles.logoHeader}></Image> */}
         <Icon name='soccer' size={hp(25)} color={'#000'}></Icon>
         <Text style={styles.textHeader}>CartóBa</Text>
       </View>
@@ -30,10 +29,7 @@ export default function Header() {
         <Text>Mercado: </Text>
         <Switch
           trackColor={{false: '#d50000', true: '#7ce604'}}
-          //thumbColor={statusMarket ? '#568203' : '#df2c14'}
           thumbColor={'rgba(0, 0, 0, 0.7)'}
-          // ios_backgroundColor="#3e3e3e"
-          //onValueChange={toggleSwitch}
           value={statusMarket}
           disabled
         />

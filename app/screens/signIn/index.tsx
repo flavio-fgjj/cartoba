@@ -1,4 +1,3 @@
-import React, { Component, useState } from 'react';
 import { WebView } from 'react-native-webview';
 
 // style

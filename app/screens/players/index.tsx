@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 // components
 import Loader from '@components/Loader';
+import Leagues from '@components/League/League';
+import Market from '@components/Market';
 
 // hooks
 import useGetData from '@services/hooks/useGetData';
@@ -10,8 +13,6 @@ import useGetData from '@services/hooks/useGetData';
 // model
 import { League } from 'app/model/league/League';
 import { ConvertedLeague } from 'app/model/league/ConvertedLeague';
-import Leagues from '@components/League/League';
-import { Text } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,11 +37,7 @@ export default function Players() {
 	if (loading) {
     return <Loader />
   }
-
-	const Mercado = () => {
-		return (<Text>Mercado</Text>)
-	}
-
+	
 	const Parciais = () => {
 		return (<Text>Parciais</Text>)
 	}
@@ -51,7 +48,7 @@ export default function Players() {
       <Tab.Screen 
 				name="Mercado" 
 				// component={()=><Leagues leagueType='Ligas Clássicas' leagues={classicLeagues} />} 
-				component={Mercado}
+				component={Market}
 
 			/>
       <Tab.Screen 
