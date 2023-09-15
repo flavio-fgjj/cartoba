@@ -1,7 +1,12 @@
-# cartoba
-Cartóba é um App não oficial do game Cartola da Globo.com
-
-##
+<div align="center">
+  Cartóba 
+  
+  ![logo](https://github.com/flavio-fgjj/cartoba/assets/9452793/973df37b-0fe7-45ec-ba35-3d1a911d61bf)
+  
+  <p> App NÃO oficial do game Cartola da Globo.com</p> 
+  
+  [Site oficial do Cartola](https://ge.globo.com/cartola/)
+</div>
 
 # Login (Diretamente na página oficial do Cartola)
 ![login](https://github.com/flavio-fgjj/cartoba/assets/9452793/91951165-3482-4a23-8909-4cc6bcbdad32)
