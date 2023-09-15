@@ -6,3 +6,4 @@ Cartóba é um App não oficial do game Cartola da Globo.com
 ![time](https://github.com/flavio-fgjj/cartoba/assets/9452793/65b7c567-fcf1-49de-a091-67e0a8be4afc)
 ![tela2](https://github.com/flavio-fgjj/cartoba/assets/9452793/c35ad7d9-4e87-4bf1-9d79-56e072319e57)
 ![tela3](https://github.com/flavio-fgjj/cartoba/assets/9452793/b8f6900b-c942-42d1-a565-4d18847b51a5)
+![mercado](https://github.com/flavio-fgjj/cartoba/assets/9452793/8e24dac7-d423-4675-9d70-0b3d64bbdfed)
